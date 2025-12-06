@@ -166,7 +166,7 @@ def get_questions(directory, filename):
 
 @main.route('/save_questions/<string:directory>/<string:filename>', methods=['POST'])
 def save_questions(directory, filename):
-	"""Save questions to a JSON file and commit to GitHub"""
+	"""Save questions to a JSON file (local only, synced to GitHub periodically)"""
 	filepath = os.path.join(directory, filename)
 	
 	if not os.path.isdir(directory):
@@ -180,10 +180,7 @@ def save_questions(directory, filename):
 		with open(filepath, 'w', encoding='utf-8') as f:
 			json.dump(questions_data, f, indent=2, ensure_ascii=False)
 		
-		# Commit to GitHub
-		github_path = filepath.replace('\\', '/')
-		commit_message = f"Update {directory}/{filename} via web editor"
-		github_sync.commit_file(github_path, questions_data, commit_message)
+		# Note: GitHub sync happens via periodic background task or manual trigger
 		
 		return jsonify({'success': True})
 	except Exception as e:
@@ -221,9 +218,7 @@ def create_question_set():
 		if os.path.exists(readme_path):
 			os.remove(readme_path)
 		
-		# Commit new directory to GitHub
-		commit_message = f"Create new question set: {new_name}"
-		github_sync.commit_directory(new_name, commit_message)
+		# Note: GitHub sync happens via periodic background task or manual trigger
 		
 		return jsonify({'success': True, 'name': new_name})
 	except Exception as e:
@@ -267,3 +262,58 @@ def delete_question_set(directory):
 		return jsonify({'success': True})
 	except Exception as e:
 		return jsonify({'success': False, 'error': str(e)}), 500
+
+@main.route('/sync_to_github', methods=['POST'])
+def sync_to_github():
+	"""Manually trigger GitHub sync with cooldown"""
+	import time
+	
+	# Check cooldown (5 minutes = 300 seconds)
+	last_sync_time = current_app.config.get('last_manual_sync', 0)
+	current_time = time.time()
+	cooldown_seconds = 300  # 5 minutes
+	
+	if current_time - last_sync_time < cooldown_seconds:
+		remaining = int(cooldown_seconds - (current_time - last_sync_time))
+		minutes = remaining // 60
+		seconds = remaining % 60
+		return jsonify({
+			'success': False, 
+			'error': f'Wacht nog {minutes}m {seconds}s voordat je opnieuw kunt opslaan'
+		}), 429
+	
+	# Perform sync
+	try:
+		synced_count = sync_all_question_sets()
+		current_app.config['last_manual_sync'] = current_time
+		current_app.config['last_sync_time'] = current_time
+		
+		return jsonify({
+			'success': True, 
+			'message': f'{synced_count} vragenset(s) opgeslagen naar server',
+			'synced_count': synced_count
+		})
+	except Exception as e:
+		return jsonify({'success': False, 'error': str(e)}), 500
+
+def sync_all_question_sets():
+	"""Sync all question sets to GitHub"""
+	if not github_sync.enabled:
+		print("⚠️ GitHub sync is disabled")
+		return 0
+	
+	synced_count = 0
+	
+	# Get all question directories (exclude template)
+	for item in os.listdir('.'):
+		if os.path.isdir(item) and not item.startswith('.') and not item.startswith('_') and item != 'template':
+			if glob.glob(os.path.join(item, '*.json')):
+				try:
+					commit_message = f"Auto-sync: {item}"
+					if github_sync.commit_directory(item, commit_message):
+						synced_count += 1
+						print(f"✅ Synced {item} to GitHub")
+				except Exception as e:
+					print(f"⚠️ Failed to sync {item}: {e}")
+	
+	return synced_count

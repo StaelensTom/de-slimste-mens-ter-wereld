@@ -9,7 +9,9 @@
 					<div class="mt-2">
 						<a href="{{ url_for('main.landing') }}" class="btn btn-secondary">← Terug naar home</a>
 						<button class="btn btn-success" onclick="showCreateDialog()">+ Nieuwe vragenset maken</button>
+						<button class="btn btn-primary" id="syncButton" onclick="syncToServer()">💾 Opslaan naar server</button>
 					</div>
+					<div id="syncStatus" style="margin-top: 10px; font-size: 0.9rem; color: #666;"></div>
 				</div>
 				
 				<div class="row">
@@ -546,6 +548,57 @@
 			.catch(error => {
 				console.error('Error:', error);
 				alert('❌ Fout bij opslaan');
+			});
+		}
+		
+		function syncToServer() {
+			const syncButton = document.getElementById('syncButton');
+			const syncStatus = document.getElementById('syncStatus');
+			
+			// Disable button and show loading
+			syncButton.disabled = true;
+			syncButton.textContent = '⏳ Bezig met opslaan...';
+			syncStatus.textContent = '';
+			
+			fetch('/sync_to_github', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					syncStatus.style.color = '#28a745';
+					syncStatus.textContent = `✅ ${data.message}`;
+					
+					// Keep button disabled for 5 minutes
+					let remainingSeconds = 300;
+					const interval = setInterval(() => {
+						remainingSeconds--;
+						const minutes = Math.floor(remainingSeconds / 60);
+						const seconds = remainingSeconds % 60;
+						syncButton.textContent = `💾 Opslaan (${minutes}m ${seconds}s)`;
+						
+						if (remainingSeconds <= 0) {
+							clearInterval(interval);
+							syncButton.disabled = false;
+							syncButton.textContent = '💾 Opslaan naar server';
+						}
+					}, 1000);
+				} else {
+					syncButton.disabled = false;
+					syncButton.textContent = '💾 Opslaan naar server';
+					syncStatus.style.color = '#dc3545';
+					syncStatus.textContent = `❌ ${data.error}`;
+				}
+			})
+			.catch(error => {
+				syncButton.disabled = false;
+				syncButton.textContent = '💾 Opslaan naar server';
+				syncStatus.style.color = '#dc3545';
+				syncStatus.textContent = '❌ Fout bij opslaan naar server';
+				console.error('Error:', error);
 			});
 		}
 	</script>
