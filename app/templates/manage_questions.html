@@ -32,8 +32,11 @@
 						</div>
 						
 						<div class="card mt-3" id="filesCard" style="display: none;">
-							<div class="card-header">
+							<div class="card-header d-flex justify-content-between align-items-center">
 								<h5>Bestanden in <span id="selectedSetName"></span></h5>
+								<button class="btn btn-danger btn-sm" id="deleteSetBtn" onclick="deleteQuestionSet()" style="display: none;">
+									🗑️ Verwijder set
+								</button>
 							</div>
 							<div class="card-body">
 								<div class="list-group" id="filesList"></div>
@@ -167,6 +170,14 @@
 			currentDirectory = directory;
 			document.getElementById('selectedSetName').textContent = directory;
 			
+			// Show/hide delete button (hide for default and template)
+			const deleteBtn = document.getElementById('deleteSetBtn');
+			if (directory === 'default' || directory === 'template') {
+				deleteBtn.style.display = 'none';
+			} else {
+				deleteBtn.style.display = 'block';
+			}
+			
 			// Fetch files in this directory
 			fetch(`/get_question_files/${directory}`)
 				.then(response => response.json())
@@ -177,6 +188,32 @@
 					}
 				})
 				.catch(error => console.error('Error:', error));
+		}
+		
+		function deleteQuestionSet() {
+			if (!currentDirectory) return;
+			
+			if (confirm(`Weet je zeker dat je de vragenset "${currentDirectory}" wilt verwijderen? Dit kan niet ongedaan worden gemaakt!`)) {
+				fetch(`/delete_question_set/${currentDirectory}`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					}
+				})
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						alert(`✅ Vragenset "${currentDirectory}" succesvol verwijderd!`);
+						// Reload page to refresh list
+						window.location.reload();
+					} else {
+						alert(`❌ Fout: ${data.error}`);
+					}
+				})
+				.catch(error => {
+					alert(`❌ Fout bij verwijderen: ${error}`);
+				});
+			}
 		}
 		
 		function displayFiles(files) {

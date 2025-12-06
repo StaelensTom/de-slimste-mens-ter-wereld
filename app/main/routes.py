@@ -228,3 +228,42 @@ def create_question_set():
 		return jsonify({'success': True, 'name': new_name})
 	except Exception as e:
 		return jsonify({'success': False, 'error': str(e)}), 500
+
+@main.route('/delete_question_set/<string:directory>', methods=['POST'])
+def delete_question_set(directory):
+	"""Delete a question set (except default and template)"""
+	import shutil
+	
+	# Protect default and template
+	if directory in ['default', 'template']:
+		return jsonify({'success': False, 'error': 'Kan default of template niet verwijderen'}), 403
+	
+	# Check if directory exists
+	if not os.path.isdir(directory):
+		return jsonify({'success': False, 'error': 'Vragenset niet gevonden'}), 404
+	
+	try:
+		# Delete local directory
+		shutil.rmtree(directory)
+		
+		# Delete from GitHub by deleting all files
+		commit_message = f"Delete question set: {directory}"
+		
+		# Get all files in the directory from GitHub and delete them
+		if github_sync.enabled:
+			try:
+				contents = github_sync.repo.get_contents(directory, ref=github_sync.branch)
+				for content_file in contents:
+					github_sync.repo.delete_file(
+						path=content_file.path,
+						message=commit_message,
+						sha=content_file.sha,
+						branch=github_sync.branch
+					)
+				print(f"✅ Deleted {directory} from GitHub")
+			except Exception as e:
+				print(f"⚠️ Could not delete from GitHub: {e}")
+		
+		return jsonify({'success': True})
+	except Exception as e:
+		return jsonify({'success': False, 'error': str(e)}), 500
