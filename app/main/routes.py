@@ -8,6 +8,7 @@ from . import main
 
 from flask import current_app
 from erik.dsmtw import DeSlimsteMens
+from app.github_sync import github_sync
 
 @main.route('/')
 def landing():
@@ -165,7 +166,7 @@ def get_questions(directory, filename):
 
 @main.route('/save_questions/<string:directory>/<string:filename>', methods=['POST'])
 def save_questions(directory, filename):
-	"""Save questions to a JSON file"""
+	"""Save questions to a JSON file and commit to GitHub"""
 	filepath = os.path.join(directory, filename)
 	
 	if not os.path.isdir(directory):
@@ -175,9 +176,14 @@ def save_questions(directory, filename):
 		data = request.get_json()
 		questions_data = data.get('questions')
 		
-		# Write to file with pretty formatting
+		# Write to local file with pretty formatting
 		with open(filepath, 'w', encoding='utf-8') as f:
 			json.dump(questions_data, f, indent=2, ensure_ascii=False)
+		
+		# Commit to GitHub
+		github_path = filepath.replace('\\', '/')
+		commit_message = f"Update {directory}/{filename} via web editor"
+		github_sync.commit_file(github_path, questions_data, commit_message)
 		
 		return jsonify({'success': True})
 	except Exception as e:
@@ -214,6 +220,10 @@ def create_question_set():
 		readme_path = os.path.join(new_name, 'README.md')
 		if os.path.exists(readme_path):
 			os.remove(readme_path)
+		
+		# Commit new directory to GitHub
+		commit_message = f"Create new question set: {new_name}"
+		github_sync.commit_directory(new_name, commit_message)
 		
 		return jsonify({'success': True, 'name': new_name})
 	except Exception as e:
