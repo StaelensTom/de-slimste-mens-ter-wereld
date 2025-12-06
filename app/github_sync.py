@@ -5,7 +5,7 @@ Commits changes directly to the GitHub repository.
 import os
 import json
 import base64
-from github import Github, GithubException
+from github import Github, GithubException, InputGitTreeElement
 
 
 class GitHubSync:
@@ -81,7 +81,7 @@ class GitHubSync:
     
     def commit_directory(self, directory_path, commit_message):
         """
-        Commit an entire directory to GitHub.
+        Commit an entire directory to GitHub in a single commit using Git Tree API.
         
         Args:
             directory_path: Local directory path
@@ -94,7 +94,13 @@ class GitHubSync:
             return False
         
         try:
-            success = True
+            # Get the latest commit SHA
+            ref = self.repo.get_git_ref(f'heads/{self.branch}')
+            latest_commit_sha = ref.object.sha
+            base_tree = self.repo.get_git_commit(latest_commit_sha).tree
+            
+            # Collect all files to commit
+            tree_elements = []
             for root, dirs, files in os.walk(directory_path):
                 for file in files:
                     local_path = os.path.join(root, file)
@@ -104,10 +110,35 @@ class GitHubSync:
                     with open(local_path, 'r', encoding='utf-8') as f:
                         content = f.read()
                     
-                    if not self.commit_file(rel_path, content, commit_message):
-                        success = False
+                    # Create blob for this file
+                    blob = self.repo.create_git_blob(content, "utf-8")
+                    
+                    # Add to tree elements
+                    tree_elements.append(
+                        InputGitTreeElement(
+                            path=rel_path,
+                            mode='100644',  # Regular file
+                            type='blob',
+                            sha=blob.sha
+                        )
+                    )
             
-            return success
+            # Create new tree
+            new_tree = self.repo.create_git_tree(tree_elements, base_tree)
+            
+            # Create commit
+            parent = self.repo.get_git_commit(latest_commit_sha)
+            new_commit = self.repo.create_git_commit(
+                message=commit_message,
+                tree=new_tree,
+                parents=[parent]
+            )
+            
+            # Update reference
+            ref.edit(new_commit.sha)
+            
+            print(f"✅ Committed {len(tree_elements)} files from {directory_path} to GitHub in single commit")
+            return True
             
         except Exception as e:
             print(f"❌ Failed to commit directory {directory_path}: {e}")
