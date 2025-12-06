@@ -41,4 +41,4 @@ if args.function == "listen":
 
 	# Render requires binding to 0.0.0.0
 	host = '0.0.0.0' if is_production else '127.0.0.1'
-	socketio.run(app, host=host, port=port, debug=debug_mode)
+	socketio.run(app, host=host, port=port, debug=debug_mode, allow_unsafe_werkzeug=True)
