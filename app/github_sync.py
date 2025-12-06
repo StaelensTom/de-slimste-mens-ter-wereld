@@ -94,10 +94,13 @@ class GitHubSync:
             return False
         
         try:
+            print(f"🔄 Starting commit of directory: {directory_path}")
+            
             # Get the latest commit SHA
             ref = self.repo.get_git_ref(f'heads/{self.branch}')
             latest_commit_sha = ref.object.sha
             base_tree = self.repo.get_git_commit(latest_commit_sha).tree
+            print(f"  ✅ Got base tree from commit {latest_commit_sha[:7]}")
             
             # Collect all files to commit
             tree_elements = []
@@ -107,11 +110,17 @@ class GitHubSync:
                     # Get path relative to current directory
                     rel_path = os.path.relpath(local_path, '.').replace('\\', '/')
                     
-                    with open(local_path, 'r', encoding='utf-8') as f:
-                        content = f.read()
-                    
-                    # Create blob for this file
-                    blob = self.repo.create_git_blob(content, "utf-8")
+                    # Read file content (handle both text and binary)
+                    try:
+                        with open(local_path, 'r', encoding='utf-8') as f:
+                            content = f.read()
+                        # Create blob for text file
+                        blob = self.repo.create_git_blob(content, "utf-8")
+                    except UnicodeDecodeError:
+                        # Binary file - read as bytes and encode as base64
+                        with open(local_path, 'rb') as f:
+                            content = base64.b64encode(f.read()).decode('utf-8')
+                        blob = self.repo.create_git_blob(content, "base64")
                     
                     # Add to tree elements
                     tree_elements.append(
@@ -122,9 +131,17 @@ class GitHubSync:
                             sha=blob.sha
                         )
                     )
+                    print(f"  📄 Prepared {rel_path}")
+            
+            if not tree_elements:
+                print(f"⚠️ No files found in {directory_path}")
+                return False
+            
+            print(f"  📦 Creating tree with {len(tree_elements)} files...")
             
             # Create new tree
             new_tree = self.repo.create_git_tree(tree_elements, base_tree)
+            print(f"  ✅ Tree created: {new_tree.sha[:7]}")
             
             # Create commit
             parent = self.repo.get_git_commit(latest_commit_sha)
@@ -133,15 +150,19 @@ class GitHubSync:
                 tree=new_tree,
                 parents=[parent]
             )
+            print(f"  ✅ Commit created: {new_commit.sha[:7]}")
             
             # Update reference
             ref.edit(new_commit.sha)
+            print(f"  ✅ Reference updated to {new_commit.sha[:7]}")
             
             print(f"✅ Committed {len(tree_elements)} files from {directory_path} to GitHub in single commit")
             return True
             
         except Exception as e:
+            import traceback
             print(f"❌ Failed to commit directory {directory_path}: {e}")
+            print(f"   Traceback: {traceback.format_exc()}")
             return False
 
 
