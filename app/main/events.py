@@ -24,6 +24,10 @@ def broadcast_state():
 	global thread
 
 	game = current_app.config["game"]
+	
+	# If game is not initialized yet, don't broadcast
+	if game is None:
+		return
 
 	# Stop countdown-to-zero timer if it changed automatically
 	if not game.timer_running:
@@ -175,3 +179,25 @@ def io_open_deur_choose(questioneer_index):
 
 	if video_filename:
 		broadcast_video(video_filename)
+
+@socketio.on('restart_game', namespace=namespace)
+def io_restart_game():
+	"""Restart the game by reinitializing with the same players and questions"""
+	from erik.dsmtw import DeSlimsteMens
+	
+	game = current_app.config["game"]
+	
+	if game is None:
+		return
+	
+	# Get current configuration
+	questions_directory = current_app.config['questions_directory']
+	player_names = [player.name for player in game.players]
+	
+	print("Restarting game with players:", player_names)
+	
+	# Create new game instance
+	current_app.config['game'] = DeSlimsteMens(player_names, questions_directory)
+	
+	# Broadcast the new initial state
+	broadcast_state()

@@ -43,6 +43,13 @@ class Gameshow
 		this.websocket.emit("end_game");
 	}
 
+	restartGame()
+	{
+		if (confirm("Weet je zeker dat je het spel opnieuw wilt starten? Alle voortgang gaat verloren!")) {
+			this.websocket.emit("restart_game");
+		}
+	}
+
 	renderState(event)
 	{
 		console.log("Received state");

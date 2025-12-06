@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: de-slimste-mens-ter-wereld
+    env: python
+    region: frankfurt  # Closest to Belgium
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python dsmtw.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
