@@ -135,14 +135,5 @@ assets
 .DS_Store
 
 # Custom question sets (keep only default and template in production)
-# Ignore all directories except default and template
-/**/
-!default/
-!template/
-!app/
-!erik/
-!static/
-!.github/
-
 # Specifically ignore test question sets
 Familie-Staelens/
