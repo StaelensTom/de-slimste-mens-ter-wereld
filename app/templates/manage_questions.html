@@ -1,0 +1,515 @@
+{% extends "base.html" %}
+{% block content %}
+	<link rel="stylesheet" type="text/css" href="/static/css/landing.css">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12">
+				<div class="text-center mt-4 mb-4">
+					<h1>📝 Beheer Vragenlijsten</h1>
+					<div class="mt-2">
+						<a href="{{ url_for('main.landing') }}" class="btn btn-secondary">← Terug naar home</a>
+						<button class="btn btn-success" onclick="showCreateDialog()">+ Nieuwe vragenset maken</button>
+					</div>
+				</div>
+				
+				<div class="row">
+					<!-- Left Panel: Question Sets and Files -->
+					<div class="col-md-4">
+						<div class="card">
+							<div class="card-header">
+								<h5>Vragensets</h5>
+							</div>
+							<div class="card-body">
+								<div class="list-group" id="questionSetsList">
+									{% for dir in question_dirs %}
+									<button class="list-group-item list-group-item-action" 
+											onclick="selectQuestionSet('{{ dir }}')">
+										📁 {{ dir }}
+									</button>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+						
+						<div class="card mt-3" id="filesCard" style="display: none;">
+							<div class="card-header">
+								<h5>Bestanden in <span id="selectedSetName"></span></h5>
+							</div>
+							<div class="card-body">
+								<div class="list-group" id="filesList"></div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- Right Panel: Question Editor -->
+					<div class="col-md-8">
+						<div class="card" id="editorCard" style="display: none;">
+							<div class="card-header d-flex justify-content-between align-items-center">
+								<h5>Bewerk: <span id="currentFileName"></span></h5>
+								<button class="btn btn-success" onclick="saveQuestions()">💾 Opslaan</button>
+							</div>
+							<div class="card-body">
+								<div id="questionsEditor"></div>
+								<button class="btn btn-primary mt-3" onclick="addQuestion()">+ Voeg vraag toe</button>
+							</div>
+						</div>
+						
+						<div class="card" id="welcomeCard">
+							<div class="card-body text-center p-5">
+								<h3>Welkom bij de Vragenlijst Editor</h3>
+								<p class="text-muted">Selecteer een vragenset en bestand om te beginnen met bewerken.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Create New Question Set Dialog -->
+	<div id="createDialog" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center;">
+		<div style="background: white; padding: 30px; border-radius: 10px; max-width: 500px; width: 90%;">
+			<h3>Nieuwe Vragenset Maken</h3>
+			<p>Een nieuwe vragenset wordt gemaakt op basis van de template.</p>
+			<div style="margin: 20px 0;">
+				<label style="display: block; margin-bottom: 5px; font-weight: bold;">Naam van de nieuwe vragenset:</label>
+				<input type="text" id="newSetName" placeholder="bijv: kerst-2024" style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px;">
+				<small style="color: #666; display: block; margin-top: 5px;">Gebruik alleen letters, cijfers, - en _</small>
+			</div>
+			<div id="createError" style="display: none; color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 5px; margin: 10px 0;"></div>
+			<div style="text-align: right; margin-top: 20px;">
+				<button onclick="hideCreateDialog()" style="padding: 10px 20px; margin-right: 10px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;">Annuleren</button>
+				<button onclick="createNewSet()" style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Aanmaken</button>
+			</div>
+		</div>
+	</div>
+	
+	<style>
+		.question-item {
+			border: 1px solid #ddd;
+			padding: 15px;
+			margin-bottom: 15px;
+			border-radius: 5px;
+			background-color: #f8f9fa;
+		}
+		.question-item:hover {
+			background-color: #e9ecef;
+		}
+		.answer-item {
+			margin-left: 20px;
+			margin-bottom: 10px;
+		}
+		.btn-remove {
+			float: right;
+		}
+		.card-body {
+			max-height: 80vh;
+			overflow-y: auto;
+		}
+		#questionsEditor {
+			max-height: 70vh;
+			overflow-y: auto;
+			padding-right: 10px;
+		}
+	</style>
+	
+	<script>
+		let currentDirectory = null;
+		let currentFile = null;
+		let questionsData = null;
+		
+		function showCreateDialog() {
+			document.getElementById('newSetName').value = '';
+			document.getElementById('createError').style.display = 'none';
+			document.getElementById('createDialog').style.display = 'flex';
+		}
+		
+		function hideCreateDialog() {
+			document.getElementById('createDialog').style.display = 'none';
+		}
+		
+		function createNewSet() {
+			const name = document.getElementById('newSetName').value.trim();
+			const errorDiv = document.getElementById('createError');
+			
+			if (!name) {
+				errorDiv.textContent = 'Naam is verplicht';
+				errorDiv.style.display = 'block';
+				return;
+			}
+			
+			fetch('/create_question_set', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ name: name })
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					hideCreateDialog();
+					alert(`✅ Vragenset "${data.name}" succesvol aangemaakt!`);
+					// Reload page to show new set
+					window.location.reload();
+				} else {
+					errorDiv.textContent = data.error;
+					errorDiv.style.display = 'block';
+				}
+			})
+			.catch(error => {
+				errorDiv.textContent = 'Fout bij aanmaken: ' + error;
+				errorDiv.style.display = 'block';
+			});
+		}
+		
+		function selectQuestionSet(directory) {
+			currentDirectory = directory;
+			document.getElementById('selectedSetName').textContent = directory;
+			
+			// Fetch files in this directory
+			fetch(`/get_question_files/${directory}`)
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						displayFiles(data.files);
+						document.getElementById('filesCard').style.display = 'block';
+					}
+				})
+				.catch(error => console.error('Error:', error));
+		}
+		
+		function displayFiles(files) {
+			const filesList = document.getElementById('filesList');
+			filesList.innerHTML = '';
+			
+			files.forEach(file => {
+				const button = document.createElement('button');
+				button.className = 'list-group-item list-group-item-action';
+				button.textContent = `📄 ${file}`;
+				button.onclick = () => loadQuestions(file);
+				filesList.appendChild(button);
+			});
+		}
+		
+		function loadQuestions(filename) {
+			currentFile = filename;
+			document.getElementById('currentFileName').textContent = filename;
+			
+			fetch(`/get_questions/${currentDirectory}/${filename}`)
+				.then(response => response.json())
+				.then(data => {
+					questionsData = data;
+					displayQuestions(data);
+					document.getElementById('welcomeCard').style.display = 'none';
+					document.getElementById('editorCard').style.display = 'block';
+				})
+				.catch(error => {
+					console.error('Error:', error);
+					alert('Fout bij laden van vragen');
+				});
+		}
+		
+		function displayQuestions(questions) {
+			const editor = document.getElementById('questionsEditor');
+			editor.innerHTML = '';
+			
+			questions.forEach((q, index) => {
+				const questionDiv = document.createElement('div');
+				questionDiv.className = 'question-item';
+				questionDiv.id = `question-${index}`;
+				
+				let html = `
+					<button class="btn btn-sm btn-danger btn-remove" onclick="removeQuestion(${index})">✕ Verwijder</button>
+					<h6>Item ${index + 1}</h6>
+				`;
+				
+				// Format 1: Simple question-answer (3-6-9)
+				if (q.hasOwnProperty('question') && q.hasOwnProperty('answer') && !q.hasOwnProperty('answers') && !q.hasOwnProperty('keywords')) {
+					html += `
+						<div class="mb-2">
+							<label class="form-label"><strong>Vraag:</strong></label>
+							<input type="text" class="form-control" value="${escapeHtml(q.question)}" 
+								   onchange="updateQuestion(${index}, 'question', this.value)">
+						</div>
+						<div class="mb-2">
+							<label class="form-label"><strong>Antwoord:</strong></label>
+							<input type="text" class="form-control" value="${escapeHtml(q.answer)}" 
+								   onchange="updateQuestion(${index}, 'answer', this.value)">
+						</div>
+					`;
+				}
+				// Format 2: Puzzel (keywords + answer)
+				else if (q.hasOwnProperty('keywords') && q.hasOwnProperty('answer')) {
+					html += `<div class="mb-2"><label class="form-label"><strong>Keywords:</strong></label>`;
+					q.keywords.forEach((keyword, keywordIndex) => {
+						html += `
+							<div class="answer-item input-group mb-2">
+								<input type="text" class="form-control" value="${escapeHtml(keyword)}" 
+									   onchange="updateKeyword(${index}, ${keywordIndex}, this.value)">
+								<button class="btn btn-outline-danger" onclick="removeKeyword(${index}, ${keywordIndex})">✕</button>
+							</div>
+						`;
+					});
+					html += `
+						<button class="btn btn-sm btn-secondary" onclick="addKeyword(${index})">+ Keyword toevoegen</button>
+					</div>`;
+					html += `
+						<div class="mb-2">
+							<label class="form-label"><strong>Antwoord:</strong></label>
+							<input type="text" class="form-control" value="${escapeHtml(q.answer)}" 
+								   onchange="updateQuestion(${index}, 'answer', this.value)">
+						</div>
+					`;
+				}
+				// Format 3: Galerij (images[] + answers[])
+				else if (q.hasOwnProperty('images') && q.hasOwnProperty('answers')) {
+					html += `<div class="mb-2"><label class="form-label"><strong>Afbeeldingen:</strong></label>`;
+					q.images.forEach((image, imageIndex) => {
+						html += `
+							<div class="answer-item input-group mb-2">
+								<input type="text" class="form-control" value="${escapeHtml(image)}" 
+									   onchange="updateImage(${index}, ${imageIndex}, this.value)">
+								<button class="btn btn-outline-danger" onclick="removeImage(${index}, ${imageIndex})">✕</button>
+							</div>
+						`;
+					});
+					html += `
+						<button class="btn btn-sm btn-secondary" onclick="addImage(${index})">+ Afbeelding toevoegen</button>
+					</div>`;
+					
+					html += `<div class="mb-2"><label class="form-label"><strong>Antwoorden:</strong></label>`;
+					q.answers.forEach((answer, answerIndex) => {
+						html += `
+							<div class="answer-item input-group mb-2">
+								<input type="text" class="form-control" value="${escapeHtml(answer)}" 
+									   onchange="updateAnswer(${index}, ${answerIndex}, this.value)">
+								<button class="btn btn-outline-danger" onclick="removeAnswer(${index}, ${answerIndex})">✕</button>
+							</div>
+						`;
+					});
+					html += `
+						<button class="btn btn-sm btn-secondary" onclick="addAnswer(${index})">+ Antwoord toevoegen</button>
+					</div>`;
+				}
+				// Format 4: Collectief geheugen (answers[] + image + video, NO question)
+				// Format 5: Open deur (question + answers[] + image + video)
+				// Format 6: Finale (question + answers[])
+				else if (q.hasOwnProperty('answers') && Array.isArray(q.answers)) {
+					// Add question field if it exists
+					if (q.hasOwnProperty('question')) {
+						html += `
+							<div class="mb-2">
+								<label class="form-label"><strong>Vraag:</strong></label>
+								<input type="text" class="form-control" value="${escapeHtml(q.question)}" 
+									   onchange="updateQuestion(${index}, 'question', this.value)">
+							</div>
+						`;
+					}
+					
+					// Add image field if it exists
+					if (q.hasOwnProperty('image')) {
+						html += `
+							<div class="mb-2">
+								<label class="form-label"><strong>Afbeelding:</strong></label>
+								<input type="text" class="form-control" value="${escapeHtml(q.image)}" 
+									   onchange="updateQuestion(${index}, 'image', this.value)">
+							</div>
+						`;
+					}
+					
+					// Add video field if it exists
+					if (q.hasOwnProperty('video')) {
+						html += `
+							<div class="mb-2">
+								<label class="form-label"><strong>Video:</strong></label>
+								<input type="text" class="form-control" value="${escapeHtml(q.video)}" 
+									   onchange="updateQuestion(${index}, 'video', this.value)">
+							</div>
+						`;
+					}
+					
+					// Add answers
+					html += `<div class="mb-2"><label class="form-label"><strong>Antwoorden:</strong></label>`;
+					q.answers.forEach((answer, answerIndex) => {
+						html += `
+							<div class="answer-item input-group mb-2">
+								<input type="text" class="form-control" value="${escapeHtml(answer)}" 
+									   onchange="updateAnswer(${index}, ${answerIndex}, this.value)">
+								<button class="btn btn-outline-danger" onclick="removeAnswer(${index}, ${answerIndex})">✕</button>
+							</div>
+						`;
+					});
+					html += `
+						<button class="btn btn-sm btn-secondary" onclick="addAnswer(${index})">+ Antwoord toevoegen</button>
+					</div>`;
+				}
+				
+				questionDiv.innerHTML = html;
+				editor.appendChild(questionDiv);
+			});
+		}
+		
+		function escapeHtml(text) {
+			const div = document.createElement('div');
+			div.textContent = text;
+			return div.innerHTML;
+		}
+		
+		function updateQuestion(index, field, value) {
+			questionsData[index][field] = value;
+		}
+		
+		function updateAnswer(questionIndex, answerIndex, value) {
+			questionsData[questionIndex].answers[answerIndex] = value;
+		}
+		
+		function removeAnswer(questionIndex, answerIndex) {
+			if (confirm('Weet je zeker dat je dit antwoord wilt verwijderen?')) {
+				questionsData[questionIndex].answers.splice(answerIndex, 1);
+				displayQuestions(questionsData);
+			}
+		}
+		
+		function addAnswer(questionIndex) {
+			questionsData[questionIndex].answers.push('Nieuw antwoord');
+			displayQuestions(questionsData);
+		}
+		
+		function updateKeyword(questionIndex, keywordIndex, value) {
+			questionsData[questionIndex].keywords[keywordIndex] = value;
+		}
+		
+		function removeKeyword(questionIndex, keywordIndex) {
+			if (confirm('Weet je zeker dat je dit keyword wilt verwijderen?')) {
+				questionsData[questionIndex].keywords.splice(keywordIndex, 1);
+				displayQuestions(questionsData);
+			}
+		}
+		
+		function addKeyword(questionIndex) {
+			questionsData[questionIndex].keywords.push('Nieuw keyword');
+			displayQuestions(questionsData);
+		}
+		
+		function updateImage(questionIndex, imageIndex, value) {
+			questionsData[questionIndex].images[imageIndex] = value;
+		}
+		
+		function removeImage(questionIndex, imageIndex) {
+			if (confirm('Weet je zeker dat je deze afbeelding wilt verwijderen?')) {
+				questionsData[questionIndex].images.splice(imageIndex, 1);
+				displayQuestions(questionsData);
+			}
+		}
+		
+		function addImage(questionIndex) {
+			questionsData[questionIndex].images.push('nieuwe-afbeelding.png');
+			displayQuestions(questionsData);
+		}
+		
+		function addQuestion() {
+			// Determine format based on existing questions
+			if (questionsData.length > 0) {
+				const template = questionsData[0];
+				let newQuestion = {};
+				
+				// Format 1: Puzzel (keywords + answer)
+				if (template.hasOwnProperty('keywords') && template.hasOwnProperty('answer')) {
+					newQuestion = {
+						keywords: ['Keyword 1', 'Keyword 2', 'Keyword 3', 'Keyword 4'],
+						answer: 'Nieuw antwoord'
+					};
+				}
+				// Format 2: Galerij (images[] + answers[])
+				else if (template.hasOwnProperty('images') && template.hasOwnProperty('answers')) {
+					newQuestion = {
+						images: ['image1.png', 'image2.png', 'image3.png', 'image4.png', 'image5.png', 
+								 'image6.png', 'image7.png', 'image8.png', 'image9.png', 'image10.png'],
+						answers: ['Antwoord 1', 'Antwoord 2', 'Antwoord 3', 'Antwoord 4', 'Antwoord 5',
+								  'Antwoord 6', 'Antwoord 7', 'Antwoord 8', 'Antwoord 9', 'Antwoord 10']
+					};
+				}
+				// Format 3: Collectief geheugen (answers[] + image + video, NO question)
+				else if (!template.hasOwnProperty('question') && template.hasOwnProperty('answers') && 
+						 template.hasOwnProperty('image') && template.hasOwnProperty('video')) {
+					newQuestion = {
+						image: 'nieuwe-afbeelding.jpg',
+						answers: ['Antwoord 1', 'Antwoord 2', 'Antwoord 3', 'Antwoord 4', 'Antwoord 5'],
+						video: 'nieuwe-video.mp4'
+					};
+				}
+				// Format 4: Open deur (question + answers[] + image + video)
+				else if (template.hasOwnProperty('question') && template.hasOwnProperty('answers') && 
+						 template.hasOwnProperty('image') && template.hasOwnProperty('video')) {
+					newQuestion = {
+						image: 'nieuwe-afbeelding.png',
+						question: 'Nieuwe vraag',
+						answers: ['Antwoord 1', 'Antwoord 2', 'Antwoord 3', 'Antwoord 4'],
+						video: 'nieuwe-video.mp4'
+					};
+				}
+				// Format 5: Finale (question + answers[])
+				else if (template.hasOwnProperty('question') && template.hasOwnProperty('answers')) {
+					newQuestion = {
+						question: 'Nieuwe vraag',
+						answers: ['Antwoord 1', 'Antwoord 2', 'Antwoord 3', 'Antwoord 4', 'Antwoord 5']
+					};
+				}
+				// Format 6: Simple (question + answer) - 3-6-9
+				else {
+					newQuestion = {
+						question: 'Nieuwe vraag',
+						answer: 'Nieuw antwoord'
+					};
+				}
+				
+				questionsData.push(newQuestion);
+			} else {
+				// Default to simple format
+				questionsData.push({
+					question: 'Nieuwe vraag',
+					answer: 'Nieuw antwoord'
+				});
+			}
+			
+			displayQuestions(questionsData);
+		}
+		
+		function removeQuestion(index) {
+			if (confirm('Weet je zeker dat je deze vraag wilt verwijderen?')) {
+				questionsData.splice(index, 1);
+				displayQuestions(questionsData);
+			}
+		}
+		
+		function saveQuestions() {
+			if (!currentDirectory || !currentFile) {
+				alert('Geen bestand geselecteerd');
+				return;
+			}
+			
+			fetch(`/save_questions/${currentDirectory}/${currentFile}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					questions: questionsData
+				})
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					alert('✅ Vragen succesvol opgeslagen!');
+				} else {
+					alert('❌ Fout bij opslaan: ' + data.error);
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+				alert('❌ Fout bij opslaan');
+			});
+		}
+	</script>
+{% endblock %}

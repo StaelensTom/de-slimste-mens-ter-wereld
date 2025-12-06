@@ -8,17 +8,17 @@
 					<h1 id="title">De Slimste Mens Ter Wereld</h1>
 					<img id="halo" src="/static/img/dsmtw_logo.png">
 				</div>
-				<p class="fs-2" id="attribution">door Anthe Sevenants</p>
+				<p class="fs-2" id="attribution">door Tom & Yang</p>
 				
 				{% if not game_initialized %}
 				<!-- Configuration Form -->
 				<div class="config-form" style="max-width: 600px; margin: 2rem auto;">
 					<div class="mb-3">
 						<label for="questionSet" class="form-label fs-5">Selecteer vragenset:</label>
-						<select class="form-select form-select-lg" id="questionSet">
+						<select class="form-select form-select-lg" id="questionSet" onchange="updateMaxPlayers()">
 							<option value="">-- Kies een vragenset --</option>
 							{% for dir in question_dirs %}
-							<option value="{{ dir }}">{{ dir }}</option>
+							<option value="{{ dir.name }}" data-max-players="{{ dir.max_players }}">{{ dir.name }} (max {{ dir.max_players }} spelers)</option>
 							{% endfor %}
 						</select>
 					</div>
@@ -50,6 +50,17 @@
 					
 					<button class="button" onclick="startGame()" style="margin-top: 1rem;">Start Spel</button>
 					<div id="errorMessage" class="text-danger mt-3" style="display: none;"></div>
+					
+					<div class="mt-4">
+						<a href="{{ url_for('main.manage_questions') }}" class="btn btn-outline-primary btn-lg">
+							📝 Beheer vragenlijsten
+						</a>
+					</div>
+					
+					<!-- Credits -->
+					<div style="margin-top: 100px; padding-top: 20px; border-top: 0px solid #ddd; color: #666; font-size: 0.9rem;">
+						<p style="margin: 0;">Originele code door <a href="https://github.com/AntheSevenants" target="_blank" style="color: #666; text-decoration: underline;">Anthe Sevenants</a></p>
+					</div>
 				</div>
 				{% else %}
 				<!-- Game Started -->
@@ -68,10 +79,36 @@
 		</div>
 	</div>
 	
+	<!-- Credits Footer -->
+	<footer style="text-align: center; padding: 20px; margin-top: 40px; color: #666; font-size: 0.9rem; border-top: 1px solid #ddd; width: 100%; position: relative; bottom: 0;">
+		<p style="margin: 0;">Originele code door <a href="https://github.com/AntheSevenants" target="_blank" style="color: #666; text-decoration: underline;">Anthe Sevenants</a></p>
+	</footer>
+	
 	<script>
+		let maxPlayers = 10; // Default
+		
+		function updateMaxPlayers() {
+			const select = document.getElementById('questionSet');
+			const selectedOption = select.options[select.selectedIndex];
+			
+			if (!select.value) {
+				maxPlayers = 10;
+				return;
+			}
+			
+			// Get max players from data attribute
+			maxPlayers = parseInt(selectedOption.getAttribute('data-max-players')) || 10;
+		}
+		
 		function addPlayer() {
 			const playerInputs = document.getElementById('playerInputs');
 			const playerCount = playerInputs.children.length + 1;
+			
+			// Check max players limit
+			if (playerCount > maxPlayers) {
+				alert(`Maximum aantal spelers voor deze vragenset is ${maxPlayers}!`);
+				return;
+			}
 			
 			// Create input group div
 			const inputGroup = document.createElement('div');
@@ -128,6 +165,11 @@
 			}
 			if (playerNames.length < 2) {
 				errorDiv.textContent = 'Voeg minimaal 2 spelers toe!';
+				errorDiv.style.display = 'block';
+				return;
+			}
+			if (playerNames.length > maxPlayers) {
+				errorDiv.textContent = `Te veel spelers! Maximum is ${maxPlayers} voor deze vragenset.`;
 				errorDiv.style.display = 'block';
 				return;
 			}
