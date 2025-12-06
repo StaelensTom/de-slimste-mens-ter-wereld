@@ -152,9 +152,17 @@ class GitHubSync:
             )
             print(f"  ✅ Commit created: {new_commit.sha[:7]}")
             
-            # Update reference
-            ref.edit(new_commit.sha)
-            print(f"  ✅ Reference updated to {new_commit.sha[:7]}")
+            # Update reference (with retry for race conditions)
+            try:
+                ref.edit(new_commit.sha)
+                print(f"  ✅ Reference updated to {new_commit.sha[:7]}")
+            except GithubException as e:
+                if e.status == 422 and "not a fast forward" in str(e):
+                    print(f"  ⚠️ Race condition detected, retrying with force update...")
+                    ref.edit(new_commit.sha, force=True)
+                    print(f"  ✅ Reference force-updated to {new_commit.sha[:7]}")
+                else:
+                    raise
             
             print(f"✅ Committed {len(tree_elements)} files from {directory_path} to GitHub in single commit")
             return True
