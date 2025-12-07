@@ -33,6 +33,16 @@ class Gameshow
 		this.websocket.emit("player_advance_position", playerIndex, positionAdvancement);
 	}
 
+	playMainIntro()
+	{
+		this.websocket.emit("play_main_intro");
+	}
+
+	playRoundIntro()
+	{
+		this.websocket.emit("play_round_intro");
+	}
+
 	startGame()
 	{
 		this.websocket.emit("start_game");

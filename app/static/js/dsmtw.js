@@ -10,6 +10,10 @@ class DeSlimsteMens extends Gameshow {
 			this.clockStopped(); });
 		this.websocket.on('video', (filename) => { 
 			AuxiliaryMedia.playVideo(filename); });
+		this.websocket.on('play_main_intro_client', () => { 
+			this.playMainIntroClient(); });
+		this.websocket.on('play_round_intro_client', (roundText) => { 
+			this.playRoundIntroClient(roundText); });
 
 		this._currentSubroundText = null;
 
@@ -34,11 +38,11 @@ class DeSlimsteMens extends Gameshow {
 			}
 		}
 
-		// Detect game start
-		if (!this.latestState.running && state.running && !host) {
-			Bumper.playBumper("De Slimste Mens Ter Wereld", true);
-			Sound.playSound("intro");
-		}
+		// Detect game start - automatic intro disabled, use manual intro buttons instead
+		// if (!this.latestState.running && state.running && !host) {
+		// 	Bumper.playBumper("De Slimste Mens Ter Wereld", true);
+		// 	Sound.playSound("intro");
+		// }
 
 		// Detect game win
 		if (this.latestState.running && !state.running && !host) {
@@ -208,6 +212,20 @@ class DeSlimsteMens extends Gameshow {
 
 	releaseAdvance() {
 		this.websocket.emit("release_advance");
+	}
+
+	playMainIntroClient() {
+		if (!host) {
+			Bumper.playBumper("De Slimste Mens Ter Wereld", true);
+			Sound.playSound("intro");
+		}
+	}
+
+	playRoundIntroClient(roundText) {
+		if (!host) {
+			Bumper.playBumper(roundText);
+			Sound.playSound("bumper");
+		}
 	}
 }
 

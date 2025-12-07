@@ -1,13 +1,21 @@
 class AuxiliaryMedia {
+	static currentVideoUrl = null;
+	
 	static renderState(state) {
 		let container = document.getElementById("container_auxiliaryMedia");
 		container.classList.add("d-none");
+		
+		// Hide play button by default
+		let playButton = document.getElementById("play_video_button");
+		playButton.classList.add("d-none");
 
 		if (state.current_question == null) {
+			this.currentVideoUrl = null;
 			return;
 		}
 
 		if (!("image" in state.current_question) && !("video" in state.current_question)) {
+			this.currentVideoUrl = null;
 			return;
 		}
 
@@ -21,23 +29,89 @@ class AuxiliaryMedia {
 
 		let auxiliaryMediaElement = document.getElementById("auxiliaryMedia");
 		if (state.current_question.image != null) {
-			auxiliaryMediaElement.src = 
-				`/resources/${state.current_question.image}`;
+			// Check if image is a URL (starts with http/https) or a local file
+			if (state.current_question.image.startsWith('http')) {
+				// External URL - use directly
+				auxiliaryMediaElement.src = state.current_question.image;
+			} else {
+				// Local file - construct path with questions directory
+				const questionsDir = state.questions_directory || 'default';
+				auxiliaryMediaElement.src = `/resources/${questionsDir}/${state.current_question.image}`;
+			}
 		} else {
 			auxiliaryMediaElement.src = "";
 		}
+		
+		// Show play button if there's a video (for Collectief geheugen)
+		if (state.current_question.video != null && state.current_round_text === "Collectief geheugen") {
+			this.currentVideoUrl = state.current_question.video;
+			playButton.classList.remove("d-none");
+		} else {
+			this.currentVideoUrl = null;
+		}
 	}
-
+	
+	static playVideoFromButton() {
+		// Play video from the play button (for Collectief geheugen)
+		if (this.currentVideoUrl) {
+			this.playVideo(this.currentVideoUrl);
+			// Hide play button after clicking
+			let playButton = document.getElementById("play_video_button");
+			playButton.classList.add("d-none");
+		}
+	}
+	
 	static playVideo(filename) {
 		if (host) {
 			return;
 		}
 
-		let auxiliaryMediaElementVideo = document.getElementById("auxiliaryMedia_video");
-		auxiliaryMediaElementVideo.classList.remove("d-none");
-		auxiliaryMediaElementVideo.src = `resources/${filename}`;
-		auxiliaryMediaElementVideo.play();
+		// Check if it's a YouTube URL
+		const youtubeId = this.extractYouTubeId(filename);
+		
+		if (youtubeId) {
+			// Use YouTube iframe in container
+			let container = document.getElementById("auxiliaryMedia_youtube_container");
+			let iframe = document.getElementById("auxiliaryMedia_youtube");
+			
+			container.classList.remove("d-none");
+			iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
+		} else {
+			// Use regular video element for local files
+			let auxiliaryMediaElementVideo = document.getElementById("auxiliaryMedia_video");
+			auxiliaryMediaElementVideo.classList.remove("d-none");
+			auxiliaryMediaElementVideo.src = `resources/${filename}`;
+			auxiliaryMediaElementVideo.play();
 
-		auxiliaryMediaElementVideo.onended = () => { auxiliaryMediaElementVideo.classList.add("d-none"); };
+			auxiliaryMediaElementVideo.onended = () => { auxiliaryMediaElementVideo.classList.add("d-none"); };
+		}
+	}
+	
+	static closeVideo() {
+		// Close YouTube video
+		let container = document.getElementById("auxiliaryMedia_youtube_container");
+		let iframe = document.getElementById("auxiliaryMedia_youtube");
+		
+		container.classList.add("d-none");
+		iframe.src = ""; // Stop video playback
+		
+		// Close regular video
+		let video = document.getElementById("auxiliaryMedia_video");
+		video.classList.add("d-none");
+		video.pause();
+		video.src = "";
+	}
+	
+	static extractYouTubeId(url) {
+		if (!url) return null;
+		const patterns = [
+			/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\?\/]+)/,
+			/^([a-zA-Z0-9_-]{11})$/ // Direct video ID
+		];
+		for (const pattern of patterns) {
+			const match = url.match(pattern);
+			if (match) return match[1];
+		}
+		return null;
 	}
 }

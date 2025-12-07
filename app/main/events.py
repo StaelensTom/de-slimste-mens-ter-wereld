@@ -34,10 +34,25 @@ def broadcast_state():
 		if thread is not None:
 			thread_event.clear()
 
-	socketio.emit("state", game.as_dict())
+	# Add questions_directory to state for proper image path resolution
+	state = game.as_dict()
+	state['questions_directory'] = current_app.config.get('questions_directory', 'default')
+	socketio.emit("state", state)
 
 def broadcast_video(video_filename):
 	socketio.emit("video", video_filename)
+
+@socketio.on('play_main_intro', namespace=namespace)
+def io_play_main_intro():
+	"""Play the main 'De Slimste Mens Ter Wereld' intro without starting the game"""
+	socketio.emit("play_main_intro_client")
+
+@socketio.on('play_round_intro', namespace=namespace)
+def io_play_round_intro():
+	"""Play the current round intro (3-6-9) without advancing"""
+	game = current_app.config["game"]
+	if game:
+		socketio.emit("play_round_intro_client", game.current_round_text)
 
 @socketio.on('start_game', namespace=namespace)
 def io_start_game():

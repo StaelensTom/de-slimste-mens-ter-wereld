@@ -17,7 +17,17 @@ class OpenDeur {
 	
 				let image = document.createElement("img");
 				image.className = "questioneer";
-				image.src = `resources/${state.available_questions[i].image}`;
+			
+				// Check if image is a URL or local file
+				const imagePath = state.available_questions[i].image;
+				if (imagePath.startsWith('http')) {
+					// External URL - use directly
+					image.src = imagePath;
+				} else {
+					// Local file - construct path with questions directory
+					const questionsDir = state.questions_directory || 'default';
+					image.src = `/resources/${questionsDir}/${imagePath}`;
+				}
 	
 				if (state.question_history.includes(i)) {
 					image.classList.add("chosen");
