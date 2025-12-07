@@ -9,14 +9,22 @@
 		<h1 id="bumper_text">Wie dit leest, is zot</h1>
 	</div>
 	<div class="container-fluid {% if not host %}client{% endif %}">
-		<div class="host" style="position: fixed; top: 0; left: 0; right: 0; background: rgba(0, 0, 0, 0.8); padding: 10px; z-index: 9999; backdrop-filter: blur(5px);">
-			<button onclick="javascript:dsmtw.advanceRound();">Advance round</button>
-			<button onclick="javascript:dsmtw.correct();">Correct</button>
-			<button onclick="javascript:dsmtw.pass();">Pass</button>
-			<button onclick="javascript:dsmtw.clockStart();">Clock start</button>
-			<button onclick="javascript:dsmtw.clockStop();">Clock stop</button>
-			<button id="host_skip_video_btn" class="d-none" onclick="javascript:dsmtw.hostSkipVideo();" style="background-color: #dc3545; color: white; font-weight: bold;">⏭️ Skip Video (All Players)</button>
-			<h1 id="currentround" style="display: inline-block;">current round</h1>
+		<div class="host" style="position: fixed; top: 0; left: 0; right: 0; background: rgba(0, 0, 0, 0.8); padding: 10px; z-index: 9999; backdrop-filter: blur(5px); display: flex; justify-content: space-between; align-items: center;">
+			<div style="display: flex; align-items: center; gap: 5px; flex-wrap: wrap;">
+				<button onclick="javascript:dsmtw.advanceRound();">Advance round</button>
+				<button onclick="javascript:dsmtw.correct();">Correct</button>
+				<button onclick="javascript:dsmtw.pass();">Pass</button>
+				<button onclick="javascript:dsmtw.clockStart();">Clock start</button>
+				<button onclick="javascript:dsmtw.clockStop();">Clock stop</button>
+				<button id="host_skip_video_btn" class="d-none" onclick="javascript:dsmtw.hostSkipVideo();" style="background-color: #dc3545; color: white; font-weight: bold;">⏭️ Skip Video (All Players)</button>
+				<h1 id="currentround" style="display: inline-block; margin: 0 0 0 10px;">current round</h1>
+			</div>
+			<button onclick="javascript:dsmtw.restartGame();" 
+					style="background-color: #dc3545; color: white; border: 3px solid #a71d2a; padding: 10px 20px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3); white-space: nowrap;"
+					onmouseover="this.style.backgroundColor='#c82333'" 
+					onmouseout="this.style.backgroundColor='#dc3545'">
+				⚠️ HERSTART SPEL
+			</button>
 		</div>
 		<button class="float host" onclick="javascript:dsmtw.releaseAdvance();">></button>
 		<div class="row full top align-items-center justify-content-center text-center">
@@ -71,15 +79,6 @@
 				{% include "rounds/CollectiefGeheugen.html" %}
 				{% include "rounds/Finale.html" %}
 			</div>
-		</div>
-		<!-- Restart Game Button (Host Only) -->
-		<div class="host" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000;">
-			<button onclick="javascript:dsmtw.restartGame();" 
-					style="background-color: #dc3545; color: white; border: 3px solid #a71d2a; padding: 15px 30px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3);"
-					onmouseover="this.style.backgroundColor='#c82333'" 
-					onmouseout="this.style.backgroundColor='#dc3545'">
-				⚠️ HERSTART SPEL ⚠️
-			</button>
 		</div>
 	</div>
 	<video id="auxiliaryMedia_video" class="d-none"></video>
