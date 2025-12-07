@@ -76,8 +76,16 @@ Both views stay synchronized in real-time!
 1. Navigate to **"Beheer vragenlijsten"** (Manage Questions)
 2. Select a question set to edit
 3. Create or modify questions for each round
-4. Click **"Opslaan"** (Save) to save locally
-5. Click **"💾 Bewaar naar server"** to sync to GitHub (manual deploy required)
+4. Click **"Opslaan"** (Save) to save changes locally in browser
+5. Click **"💾 Bewaar naar server"** to sync to GitHub (requires manual Render deploy)
+
+### ⚠️ Protected Question Sets
+
+The following question sets are **protected** and cannot be overwritten:
+- `default` - Template question set
+- `template` - Example question set
+
+These sets are safe from accidental changes and serve as references for creating your own question sets.
 
 ### Question Format
 
