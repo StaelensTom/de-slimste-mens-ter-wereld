@@ -1,7 +1,12 @@
 class Puzzel {
 	static renderState(state) {
 		let puzzle = document.getElementById("round_Puzzel_puzzle");
-		if (state.turn_history.length == 1 && !state.timer_running && !host) {
+		
+		// Check if all answers are found
+		const allAnswersFound = state.answers_found.length === state.current_question.answers.length;
+		
+		// Hide puzzle only at the very start (before timer starts), but keep visible if all answers found
+		if (state.turn_history.length == 1 && !state.timer_running && !host && !allAnswersFound) {
 			puzzle.style.visibility = "hidden";
 		} else {
 			puzzle.style.visibility = "visible";
