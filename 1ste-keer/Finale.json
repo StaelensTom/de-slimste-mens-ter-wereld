@@ -1,54 +1,132 @@
 [
   {
-    "question": "Question 1?",
-    "answers": ["Answer 1", "Answer 2", "Anwser 3", "Answer 4", "Answer 5"]
+    "answers": [
+      "Vlaams-Brabant",
+      "West-Vlaanderen",
+      "Oost-Vlaanderen",
+      "Antwerpen",
+      "Limburg"
+    ],
+    "question": "Wat zijn de 5 vlaamse provincies?"
   },
   {
-    "question": "Question 2?",
-    "answers": ["Answer 1", "Answer 2", "Anwser 3", "Answer 4", "Answer 5"]
+    "answers": [
+      "Henegouwen",
+      "Luik",
+      "Namen",
+      "Waals-Brabant",
+      "Luxemburg"
+    ],
+    "question": "Wat zijn de 5 Waalse provincies?"
   },
   {
-    "question": "Question 3?",
-    "answers": ["Answer 1", "Answer 2", "Anwser 3", "Answer 4", "Answer 5"]
+    "answers": [
+      "Sneeuwwitje",
+      "Assepoester",
+      "Ariel",
+      "Jasmine",
+      "Pocahontas"
+    ],
+    "question": "Noem 5 Disney Prinsessen"
   },
   {
-    "question": "Question 4?",
-    "answers": ["Answer 1", "Answer 2", "Anwser 3", "Answer 4", "Answer 5"]
+    "answers": [
+      "Rood",
+      "Oranje",
+      "Geel",
+      "Blauw",
+      "Groen"
+    ],
+    "question": "Noem 5 kleuren van de regenboog"
   },
   {
-    "question": "Question 5?",
-    "answers": ["Answer 1", "Answer 2", "Anwser 3", "Answer 4", "Answer 5"]
+    "answers": [
+      "Voetbal",
+      "Basketbal",
+      "Tennis",
+      "Volleybal",
+      "Rugby"
+    ],
+    "question": "Noem 5 sporten die gespeeld worden met een bal"
   },
   {
-    "question": "Question 6?",
-    "answers": ["Answer 1", "Answer 2", "Anwser 3", "Answer 4", "Answer 5"]
+    "answers": [
+      "Answer 1",
+      "Answer 2",
+      "Anwser 3",
+      "Answer 4",
+      "Answer 5"
+    ],
+    "question": "Question 6?"
   },
   {
-    "question": "Question 7?",
-    "answers": ["Answer 1", "Answer 2", "Anwser 3", "Answer 4", "Answer 5"]
+    "answers": [
+      "Answer 1",
+      "Answer 2",
+      "Anwser 3",
+      "Answer 4",
+      "Answer 5"
+    ],
+    "question": "Question 7?"
   },
   {
-    "question": "Question 8?",
-    "answers": ["Answer 1", "Answer 2", "Anwser 3", "Answer 4", "Answer 5"]
+    "answers": [
+      "Answer 1",
+      "Answer 2",
+      "Anwser 3",
+      "Answer 4",
+      "Answer 5"
+    ],
+    "question": "Question 8?"
   },
   {
-    "question": "Question 9?",
-    "answers": ["Answer 1", "Answer 2", "Anwser 3", "Answer 4", "Answer 5"]
+    "answers": [
+      "Answer 1",
+      "Answer 2",
+      "Anwser 3",
+      "Answer 4",
+      "Answer 5"
+    ],
+    "question": "Question 9?"
   },
   {
-    "question": "Question 10?",
-    "answers": ["Answer 1", "Answer 2", "Anwser 3", "Answer 4", "Answer 5"]
+    "answers": [
+      "Answer 1",
+      "Answer 2",
+      "Anwser 3",
+      "Answer 4",
+      "Answer 5"
+    ],
+    "question": "Question 10?"
   },
   {
-    "question": "Question 11?",
-    "answers": ["Answer 1", "Answer 2", "Anwser 3", "Answer 4", "Answer 5"]
+    "answers": [
+      "Answer 1",
+      "Answer 2",
+      "Anwser 3",
+      "Answer 4",
+      "Answer 5"
+    ],
+    "question": "Question 11?"
   },
   {
-    "question": "Question 12?",
-    "answers": ["Answer 1", "Answer 2", "Anwser 3", "Answer 4", "Answer 5"]
+    "answers": [
+      "Answer 1",
+      "Answer 2",
+      "Anwser 3",
+      "Answer 4",
+      "Answer 5"
+    ],
+    "question": "Question 12?"
   },
   {
-    "question": "Question 13?",
-    "answers": ["Answer 1", "Answer 2", "Anwser 3", "Answer 4", "Answer 5"]
+    "answers": [
+      "Answer 1",
+      "Answer 2",
+      "Anwser 3",
+      "Answer 4",
+      "Answer 5"
+    ],
+    "question": "Question 13?"
   }
 ]
