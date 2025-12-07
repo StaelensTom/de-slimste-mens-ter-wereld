@@ -35,7 +35,12 @@
 						
 						<div class="card mt-3" id="filesCard" style="display: none;">
 							<div class="card-header d-flex justify-content-between align-items-center">
-								<h5>Bestanden in <span id="selectedSetName"></span></h5>
+								<div>
+									<h5>Bestanden in <span id="selectedSetName"></span></h5>
+									<small id="lockStatus" style="color: #28a745; display: none;">
+										<span id="lockIcon">🔓</span> <span id="lockText"></span>
+									</small>
+								</div>
 								<button class="btn btn-danger btn-sm" id="deleteSetBtn" onclick="deleteQuestionSet()" style="display: none;">
 									🗑️ Verwijder set
 								</button>
@@ -122,6 +127,8 @@
 		let currentDirectory = null;
 		let currentFile = null;
 		let questionsData = null;
+		let currentUsername = null;
+		let lockRefreshInterval = null;
 		
 		function showCreateDialog() {
 			document.getElementById('newSetName').value = '';
@@ -169,8 +176,66 @@
 		}
 		
 		function selectQuestionSet(directory) {
+			// Prompt for username if not set
+			if (!currentUsername) {
+				currentUsername = prompt('Voer je naam in om te beginnen met bewerken:');
+				if (!currentUsername) {
+					alert('Naam is verplicht om te bewerken');
+					return;
+				}
+				currentUsername = currentUsername.trim();
+			}
+			
+			// Try to acquire lock
+			fetch(`/lock_question_set/${directory}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ username: currentUsername })
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					// Lock acquired successfully
+					proceedWithSelection(directory);
+					
+					// Start lock refresh interval (every 10 minutes)
+					if (lockRefreshInterval) {
+						clearInterval(lockRefreshInterval);
+					}
+					lockRefreshInterval = setInterval(() => {
+						refreshLock(directory);
+					}, 600000); // 10 minutes
+				} else if (data.locked) {
+					// Someone else is editing
+					const minutes = Math.floor(data.expiresIn / 60);
+					const message = `🔒 Deze vragenset wordt momenteel bewerkt door ${data.lockedBy}.\n\nDe lock verloopt over ${minutes} minuten.\n\nWil je toch doorgaan? (Dit kan leiden tot conflicten!)`;
+					
+					if (confirm(message)) {
+						// Force proceed (risky!)
+						proceedWithSelection(directory);
+					}
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+				alert('Fout bij controleren van lock status');
+			});
+		}
+		
+		function proceedWithSelection(directory) {
 			currentDirectory = directory;
 			document.getElementById('selectedSetName').textContent = directory;
+			
+			// Show lock status
+			const lockStatus = document.getElementById('lockStatus');
+			const lockText = document.getElementById('lockText');
+			const lockIcon = document.getElementById('lockIcon');
+			lockStatus.style.display = 'block';
+			lockIcon.textContent = '🔓';
+			lockText.textContent = `Je bent aan het bewerken als ${currentUsername}`;
+			lockStatus.style.color = '#28a745';
 			
 			// Show/hide delete button (hide for default and template)
 			const deleteBtn = document.getElementById('deleteSetBtn');
@@ -191,6 +256,45 @@
 				})
 				.catch(error => console.error('Error:', error));
 		}
+		
+		function refreshLock(directory) {
+			fetch(`/refresh_lock/${directory}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					console.log('Lock refreshed for', directory);
+				} else {
+					console.warn('Failed to refresh lock:', data.error);
+				}
+			})
+			.catch(error => console.error('Error refreshing lock:', error));
+		}
+		
+		function releaseLock() {
+			if (currentDirectory) {
+				fetch(`/unlock_question_set/${currentDirectory}`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					}
+				})
+				.then(() => {
+					console.log('Lock released for', currentDirectory);
+					if (lockRefreshInterval) {
+						clearInterval(lockRefreshInterval);
+					}
+				})
+				.catch(error => console.error('Error releasing lock:', error));
+			}
+		}
+		
+		// Release lock when leaving page
+		window.addEventListener('beforeunload', releaseLock);
 		
 		function deleteQuestionSet() {
 			if (!currentDirectory) return;

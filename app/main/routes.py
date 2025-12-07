@@ -364,3 +364,89 @@ def upload_image(directory):
 		return jsonify({'success': True, 'filename': unique_filename})
 	except Exception as e:
 		return jsonify({'success': False, 'error': str(e)}), 500
+
+@main.route('/lock_question_set/<string:directory>', methods=['POST'])
+def lock_question_set(directory):
+	"""Attempt to lock a question set for editing"""
+	import time
+	
+	data = request.get_json()
+	username = data.get('username', 'Anonymous')
+	
+	locks = current_app.config['question_set_locks']
+	current_time = time.time()
+	
+	# Check if lock exists and is still valid
+	if directory in locks:
+		lock = locks[directory]
+		if lock['expires'] > current_time:
+			# Lock is still active
+			return jsonify({
+				'success': False,
+				'locked': True,
+				'lockedBy': lock['user'],
+				'lockedAt': lock['timestamp'],
+				'expiresIn': int(lock['expires'] - current_time)
+			})
+	
+	# Create new lock (30 minutes)
+	locks[directory] = {
+		'user': username,
+		'timestamp': current_time,
+		'expires': current_time + 1800  # 30 minutes
+	}
+	
+	return jsonify({
+		'success': True,
+		'locked': False,
+		'lockedBy': username
+	})
+
+@main.route('/unlock_question_set/<string:directory>', methods=['POST'])
+def unlock_question_set(directory):
+	"""Release lock on a question set"""
+	locks = current_app.config['question_set_locks']
+	
+	if directory in locks:
+		del locks[directory]
+	
+	return jsonify({'success': True})
+
+@main.route('/get_lock_status/<string:directory>', methods=['GET'])
+def get_lock_status(directory):
+	"""Check if a question set is locked"""
+	import time
+	
+	locks = current_app.config['question_set_locks']
+	current_time = time.time()
+	
+	if directory in locks:
+		lock = locks[directory]
+		if lock['expires'] > current_time:
+			return jsonify({
+				'locked': True,
+				'lockedBy': lock['user'],
+				'lockedAt': lock['timestamp'],
+				'expiresIn': int(lock['expires'] - current_time)
+			})
+		else:
+			# Lock expired, remove it
+			del locks[directory]
+	
+	return jsonify({'locked': False})
+
+@main.route('/refresh_lock/<string:directory>', methods=['POST'])
+def refresh_lock(directory):
+	"""Refresh lock expiration (called periodically by frontend)"""
+	import time
+	
+	locks = current_app.config['question_set_locks']
+	current_time = time.time()
+	
+	if directory in locks:
+		lock = locks[directory]
+		# Extend lock by 30 minutes
+		lock['expires'] = current_time + 1800
+		return jsonify({'success': True, 'expiresIn': 1800})
+	
+	return jsonify({'success': False, 'error': 'Lock not found'}), 404

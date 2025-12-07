@@ -31,6 +31,7 @@ def create_app(questions_directory=None, player_names=None, debug=False):
 	app.config['questions_directory'] = questions_directory
 	app.config['last_manual_sync'] = 0
 	app.config['last_sync_time'] = 0
+	app.config['question_set_locks'] = {}  # Store active locks: {directory: {user, timestamp, expires}}
 	
 	# Only create game if both parameters are provided
 	if questions_directory and player_names:
