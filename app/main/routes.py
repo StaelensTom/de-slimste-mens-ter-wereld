@@ -317,3 +317,35 @@ def sync_all_question_sets():
 					print(f"⚠️ Failed to sync {item}: {e}")
 	
 	return synced_count
+
+@main.route('/upload_image/<string:directory>', methods=['POST'])
+def upload_image(directory):
+	"""Upload an image file to a question directory"""
+	if not os.path.isdir(directory):
+		return jsonify({'success': False, 'error': 'Directory not found'}), 404
+	
+	if 'image' not in request.files:
+		return jsonify({'success': False, 'error': 'No image file provided'}), 400
+	
+	file = request.files['image']
+	if file.filename == '':
+		return jsonify({'success': False, 'error': 'No file selected'}), 400
+	
+	# Validate file extension
+	allowed_extensions = {'.png', '.jpg', '.jpeg', '.gif', '.webp'}
+	file_ext = os.path.splitext(file.filename)[1].lower()
+	if file_ext not in allowed_extensions:
+		return jsonify({'success': False, 'error': 'Invalid file type. Use PNG, JPG, or GIF'}), 400
+	
+	try:
+		# Generate unique filename
+		import uuid
+		unique_filename = f"{uuid.uuid4().hex[:8]}{file_ext}"
+		filepath = os.path.join(directory, unique_filename)
+		
+		# Save file
+		file.save(filepath)
+		
+		return jsonify({'success': True, 'filename': unique_filename})
+	except Exception as e:
+		return jsonify({'success': False, 'error': str(e)}), 500

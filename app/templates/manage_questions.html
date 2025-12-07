@@ -303,32 +303,58 @@
 				}
 				// Format 3: Galerij (images[] + answers[])
 				else if (q.hasOwnProperty('images') && q.hasOwnProperty('answers')) {
-					html += `<div class="mb-2"><label class="form-label"><strong>Afbeeldingen:</strong></label>`;
-					q.images.forEach((image, imageIndex) => {
-						html += `
-							<div class="answer-item input-group mb-2">
-								<input type="text" class="form-control" value="${escapeHtml(image)}" 
-									   onchange="updateImage(${index}, ${imageIndex}, this.value)">
-								<button class="btn btn-outline-danger" onclick="removeImage(${index}, ${imageIndex})">✕</button>
-							</div>
-						`;
-					});
-					html += `
-						<button class="btn btn-sm btn-secondary" onclick="addImage(${index})">+ Afbeelding toevoegen</button>
-					</div>`;
+					html += `<div class="mb-3"><label class="form-label"><strong>Afbeeldingen & Antwoorden:</strong></label>`;
 					
-					html += `<div class="mb-2"><label class="form-label"><strong>Antwoorden:</strong></label>`;
-					q.answers.forEach((answer, answerIndex) => {
+					// Show each image-answer pair
+					const maxItems = Math.max(q.images.length, q.answers.length);
+					for (let i = 0; i < maxItems; i++) {
+						const image = q.images[i] || '';
+						const answer = q.answers[i] || '';
+						
 						html += `
-							<div class="answer-item input-group mb-2">
-								<input type="text" class="form-control" value="${escapeHtml(answer)}" 
-									   onchange="updateAnswer(${index}, ${answerIndex}, this.value)">
-								<button class="btn btn-outline-danger" onclick="removeAnswer(${index}, ${answerIndex})">✕</button>
+							<div class="card mb-3" style="border-left: 3px solid #007bff;">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-md-5">
+											<label class="form-label"><strong>Afbeelding ${i + 1}:</strong></label>
+											${image ? `
+												<div class="mb-2">
+													<img src="/resources/${escapeHtml(image)}" 
+														 class="img-thumbnail" 
+														 style="max-width: 200px; max-height: 150px; object-fit: cover;"
+														 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22150%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3EAfbeelding niet gevonden%3C/text%3E%3C/svg%3E'">
+												</div>
+											` : ''}
+											<div class="input-group">
+												<input type="file" class="form-control" accept="image/*" 
+													   onchange="uploadGalerijImage(${index}, ${i}, this)">
+												<button class="btn btn-outline-secondary" type="button" 
+														onclick="this.previousElementSibling.click()">📁 Upload</button>
+											</div>
+											<small class="text-muted">Huidige: ${escapeHtml(image) || 'Geen afbeelding'}</small>
+										</div>
+										<div class="col-md-5">
+											<label class="form-label"><strong>Antwoord ${i + 1}:</strong></label>
+											<input type="text" class="form-control" value="${escapeHtml(answer)}" 
+												   onchange="updateGalerijAnswer(${index}, ${i}, this.value)"
+												   placeholder="Antwoord bij deze afbeelding">
+										</div>
+										<div class="col-md-2 d-flex align-items-end">
+											<button class="btn btn-outline-danger w-100" 
+													onclick="removeGalerijItem(${index}, ${i})">
+												🗑️ Verwijder
+											</button>
+										</div>
+									</div>
+								</div>
 							</div>
 						`;
-					});
+					}
+					
 					html += `
-						<button class="btn btn-sm btn-secondary" onclick="addAnswer(${index})">+ Antwoord toevoegen</button>
+						<button class="btn btn-sm btn-success" onclick="addGalerijItem(${index})">
+							+ Afbeelding & Antwoord toevoegen
+						</button>
 					</div>`;
 				}
 				// Format 4: Collectief geheugen (answers[] + image + video, NO question)
@@ -444,6 +470,72 @@
 		
 		function addImage(questionIndex) {
 			questionsData[questionIndex].images.push('nieuwe-afbeelding.png');
+			displayQuestions(questionsData);
+		}
+		
+		// Galerij-specific functions
+		function uploadGalerijImage(questionIndex, itemIndex, inputElement) {
+			const file = inputElement.files[0];
+			if (!file) return;
+			
+			// Show loading state
+			const card = inputElement.closest('.card');
+			const originalContent = card.innerHTML;
+			card.innerHTML = '<div class="card-body text-center"><div class="spinner-border" role="status"></div><p class="mt-2">Uploaden...</p></div>';
+			
+			const formData = new FormData();
+			formData.append('image', file);
+			
+			fetch(`/upload_image/${currentDirectory}`, {
+				method: 'POST',
+				body: formData
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					// Update the image in the data
+					if (!questionsData[questionIndex].images) {
+						questionsData[questionIndex].images = [];
+					}
+					questionsData[questionIndex].images[itemIndex] = data.filename;
+					
+					// Refresh display
+					displayQuestions(questionsData);
+				} else {
+					alert('❌ Upload mislukt: ' + data.error);
+					card.innerHTML = originalContent;
+				}
+			})
+			.catch(error => {
+				alert('❌ Upload mislukt: ' + error);
+				card.innerHTML = originalContent;
+			});
+		}
+		
+		function updateGalerijAnswer(questionIndex, itemIndex, value) {
+			if (!questionsData[questionIndex].answers) {
+				questionsData[questionIndex].answers = [];
+			}
+			questionsData[questionIndex].answers[itemIndex] = value;
+		}
+		
+		function removeGalerijItem(questionIndex, itemIndex) {
+			if (confirm('Weet je zeker dat je deze afbeelding en antwoord wilt verwijderen?')) {
+				questionsData[questionIndex].images.splice(itemIndex, 1);
+				questionsData[questionIndex].answers.splice(itemIndex, 1);
+				displayQuestions(questionsData);
+			}
+		}
+		
+		function addGalerijItem(questionIndex) {
+			if (!questionsData[questionIndex].images) {
+				questionsData[questionIndex].images = [];
+			}
+			if (!questionsData[questionIndex].answers) {
+				questionsData[questionIndex].answers = [];
+			}
+			questionsData[questionIndex].images.push('');
+			questionsData[questionIndex].answers.push('');
 			displayQuestions(questionsData);
 		}
 		
