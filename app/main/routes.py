@@ -61,11 +61,26 @@ def display_label_image(filename):
 	global_questions_directory = current_app.config["questions_directory"]
 
 	if not os.path.isabs(global_questions_directory):
-		path = os.path.join("..", global_questions_directory, filename)
+		path = os.path.abspath(os.path.join("..", global_questions_directory, filename))
 	else:
-		path = os.path.join(global_questions_directory, filename)
+		path = os.path.abspath(os.path.join(global_questions_directory, filename))
 
 	return send_file(path)
+
+@main.route('/resources/<string:directory>/<string:filename>')
+def display_directory_image(directory, filename):
+	"""Serve images from a specific question directory"""
+	# Get absolute path
+	abs_directory = os.path.abspath(directory)
+	
+	if not os.path.isdir(abs_directory):
+		return "Directory not found", 404
+	
+	filepath = os.path.join(abs_directory, filename)
+	if not os.path.isfile(filepath):
+		return "File not found", 404
+	
+	return send_file(filepath)
 
 @main.route('/initialize_game', methods=['POST'])
 def initialize_game():

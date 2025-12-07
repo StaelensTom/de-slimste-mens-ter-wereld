@@ -319,7 +319,7 @@
 											<label class="form-label"><strong>Afbeelding ${i + 1}:</strong></label>
 											${image ? `
 												<div class="mb-2">
-													<img src="/resources/${escapeHtml(image)}" 
+													<img src="/resources/${currentDirectory}/${escapeHtml(image)}" 
 														 class="img-thumbnail" 
 														 style="max-width: 200px; max-height: 150px; object-fit: cover;"
 														 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22150%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3EAfbeelding niet gevonden%3C/text%3E%3C/svg%3E'">
