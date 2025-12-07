@@ -20,6 +20,10 @@ class Puzzel {
 
 			if (state.answers_found.includes(answerIndex) || state.to_advance || host) {
 				keywordElement.classList.add(answerColours[answerIndex]);
+				// Add strikethrough for found answers
+				if (state.answers_found.includes(answerIndex)) {
+					keywordElement.classList.add("found");
+				}
 			}
 		}
 

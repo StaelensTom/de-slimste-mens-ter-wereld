@@ -31,15 +31,26 @@
 
 .teal
 {
-	color: #38bdb2;
+	color: #00d4ff; /* Brighter cyan - better contrast on dark backgrounds */
+	font-weight: bold;
 }
 
 .yellow
 {
-	color: #fdb86a;
+	color: #ffcc00; /* Brighter yellow - more visible on screens */
+	font-weight: bold;
 }
 
 .green
 {
-	color: #4be228;
+	color: #00ff88; /* Brighter green - better visibility */
+	font-weight: bold;
+}
+
+/* Strikethrough for found answers */
+.teal.found,
+.yellow.found,
+.green.found {
+	text-decoration: line-through;
+	text-decoration-thickness: 3px;
 }
