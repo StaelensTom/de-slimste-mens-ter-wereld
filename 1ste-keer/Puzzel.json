@@ -1,83 +1,83 @@
 [
   {
-    "answer": "Fruit",
     "keywords": [
-      "Watermeloen",
-      "Banaan",
-      "Appel",
-      "Peer"
-    ]
+      "A1 - Keyword 1",
+      "A1 - Keyword 2",
+      "A1 - Keyword 3",
+      "A1 - Keyword 4"
+    ],
+    "answer": "Answer 1"
   },
   {
-    "answer": "Italie",
     "keywords": [
-      "Pisa",
-      "Pizza",
-      "Rome",
-      "Spaghetti"
-    ]
+      "A2 - Keyword 1",
+      "A2 - Keyword 2",
+      "A2 - Keyword 3",
+      "A2 - Keyword 4"
+    ],
+    "answer": "Answer 2"
   },
   {
-    "answer": "Lego",
     "keywords": [
-      "Geel",
-      "Deens",
-      "Blokjes",
-      "Bouwen"
-    ]
+      "A3 - Keyword 1",
+      "A3 - Keyword 2",
+      "A3 - Keyword 3",
+      "A3 - Keyword 4"
+    ],
+    "answer": "Answer 3"
   },
   {
-    "answer": "Auto",
     "keywords": [
-      "Wielen",
-      "4 deuren",
-      "Benzine",
-      "Electriciteit"
-    ]
+      "A1 - Keyword 1",
+      "A1 - Keyword 2",
+      "A1 - Keyword 3",
+      "A1 - Keyword 4"
+    ],
+    "answer": "Answer 1"
   },
   {
-    "answer": "Belgie",
     "keywords": [
-      "Friet",
-      "Koning Filip",
-      "Wafel",
-      "Niet Nederland"
-    ]
+      "A2 - Keyword 1",
+      "A2 - Keyword 2",
+      "A2 - Keyword 3",
+      "A2 - Keyword 4"
+    ],
+    "answer": "Answer 2"
   },
   {
-    "answer": "Voetbal",
     "keywords": [
-      "Doel",
-      "Bal",
-      "Scheidsrechter",
-      "trainer"
-    ]
+      "A3 - Keyword 1",
+      "A3 - Keyword 2",
+      "A3 - Keyword 3",
+      "A3 - Keyword 4"
+    ],
+    "answer": "Answer 3"
   },
   {
-    "answer": "Winter",
     "keywords": [
-      "Sneeuwman",
-      "Kerstman",
-      "Warme trui",
-      "Brrrr"
-    ]
+      "A1 - Keyword 1",
+      "A1 - Keyword 2",
+      "A1 - Keyword 3",
+      "A1 - Keyword 4"
+    ],
+    "answer": "Answer 1"
   },
   {
-    "answer": "Sponge bob",
     "keywords": [
-      "geel",
-      "spons",
-      "Patrick",
-      "krabburger"
-    ]
+      "A2 - Keyword 1",
+      "A2 - Keyword 2",
+      "A2 - Keyword 3",
+      "A2 - Keyword 4"
+    ],
+    "answer": "Answer 2"
   },
   {
-    "answer": "Papa",
     "keywords": [
-      "Allerbeste",
-      "Niet mama",
-      "Tom",
-      "Niet apap"
-    ]
+      "A3 - Keyword 1",
+      "A3 - Keyword 2",
+      "A3 - Keyword 3",
+      "A3 - Keyword 4"
+    ],
+    "answer": "Answer 3"
   }
 ]

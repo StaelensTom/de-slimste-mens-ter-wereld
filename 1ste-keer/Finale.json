@@ -25,9 +25,9 @@
       "Assepoester",
       "Ariel",
       "Jasmine",
-      "Pocahontas"
+      "Belle"
     ],
-    "question": "Noem 5 Disney Prinsessen"
+    "question": "Noem de 5 oudste Disney Prinsessen"
   },
   {
     "answers": [
@@ -51,82 +51,92 @@
   },
   {
     "answers": [
-      "Answer 1",
-      "Answer 2",
-      "Anwser 3",
-      "Answer 4",
-      "Answer 5"
+      "Mercurius",
+      "Venus",
+      "Mars",
+      "Jupiter",
+      "Saturnus"
     ],
-    "question": "Question 6?"
+    "question": "Noem de 5 planeten die je met het blote oog kunt zien vanaf de Aarde (exclusief Aarde)."
   },
   {
     "answers": [
-      "Answer 1",
-      "Answer 2",
-      "Anwser 3",
-      "Answer 4",
-      "Answer 5"
+      "Duim",
+      "Wijsvinger",
+      "Middelvinger",
+      "Ringvinger",
+      "Pink"
     ],
-    "question": "Question 7?"
+    "question": "Noem de 5 types vingers op je hand."
   },
   {
     "answers": [
-      "Answer 1",
-      "Answer 2",
-      "Anwser 3",
-      "Answer 4",
-      "Answer 5"
+      "Vliegtuig",
+      "Helikopter",
+      "Luchtballon",
+      "Zweefvliegtuig",
+      "Rakket"
     ],
-    "question": "Question 8?"
+    "question": "Noem de 5 vervoersmiddelen die je door de lucht kunt laten reizen (inclusief ruimte)."
   },
   {
     "answers": [
-      "Answer 1",
-      "Answer 2",
-      "Anwser 3",
-      "Answer 4",
-      "Answer 5"
+      "Leeuw",
+      "Luipaard",
+      "Neushoorn",
+      "Olifant",
+      "Buffel"
     ],
-    "question": "Question 9?"
+    "question": "Noem de 5 soorten zoogdieren uit de Grote Vijf van Afrika."
   },
   {
     "answers": [
-      "Answer 1",
-      "Answer 2",
-      "Anwser 3",
-      "Answer 4",
-      "Answer 5"
+      "Suske",
+      "Wiske",
+      "Tante Sidonia",
+      "Lambik",
+      "Jerom"
     ],
-    "question": "Question 10?"
+    "question": "Noem 5 figuren die in de Belgische stripreeks Suske en Wiske voorkomen."
   },
   {
     "answers": [
-      "Answer 1",
-      "Answer 2",
-      "Anwser 3",
-      "Answer 4",
-      "Answer 5"
+      "Vos",
+      "Eekhoorn",
+      "Hert/Ree",
+      "Wild zwijn",
+      "Uil"
     ],
-    "question": "Question 11?"
+    "question": "Noem 5 dieren die in een typisch Vlaams bos voorkomen."
   },
   {
     "answers": [
-      "Answer 1",
-      "Answer 2",
-      "Anwser 3",
-      "Answer 4",
-      "Answer 5"
+      "Appel",
+      "Peer",
+      "Aardbij",
+      "Kriek/Kers",
+      "Pruim"
     ],
-    "question": "Question 12?"
+    "question": "Noem de 5 meest gekweekte fruitsoorten in België."
   },
   {
     "answers": [
-      "Answer 1",
-      "Answer 2",
-      "Anwser 3",
-      "Answer 4",
-      "Answer 5"
+      "Blauwe vinvis",
+      "Bultrog",
+      "Potvis",
+      "Orka",
+      "Dolfijn"
     ],
-    "question": "Question 13?"
+    "question": "Noem de 5 grootste zoogdieren die in de oceaan leven."
+  },
+  {
+    "question": "Noem de 5 groenten die een kool in hun naam hebben.",
+    "answers": [
+      "Bloemkool",
+      "Spitskool",
+      "Rode kool",
+      "Witte kool",
+      "Chinese kool"
+    ]
   }
 ]

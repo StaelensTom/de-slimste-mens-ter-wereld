@@ -1,80 +1,80 @@
 [
   {
-    "answers": [
-      "Olifant",
-      "Bonobo",
-      "Lama",
-      "Hangbuikzwijn",
-      "Schaap",
-      "Border collie",
-      "Kraai",
-      "Oerang Oetang",
-      "Tuimelaar",
-      "Kaketoe"
-    ],
     "images": [
-      "https://hips.hearstapps.com/hmg-prod/images/asian-elephant.jpg",
-      "https://hips.hearstapps.com/hmg-prod/images/bonobo.jpg",
-      "https://technopolis-rebrand.imgix.net/Blog/shutterstock_605916695.jpg?auto=format&crop=focalpoint&fit=crop&fp-x=0.5&fp-y=0.5&ixlib=php-2.1.1&ratio=1.1787172711987&w=1440&s=da74865bbe51b47b71e5113c17e2307a",
-      "https://hips.hearstapps.com/hmg-prod/images/vietnamese-potbellied-pig.jpg",
-      "https://hips.hearstapps.com/hmg-prod/images/black-Leicester-longwool-sheep.jpg",
-      "https://hips.hearstapps.com/hmg-prod/images/border-collie.jpg",
-      "https://hips.hearstapps.com/hmg-prod/images/new-caledonian-crow.jpg",
-      "https://hips.hearstapps.com/hmg-prod/images/orangutan.jpg",
-      "https://hips.hearstapps.com/hmg-prod/images/bottlenose-dolphin.jpg",
-      "https://hips.hearstapps.com/hmg-prod/images/sulphur-crested-cockatoo.jpg"
+      "galerij_1_1.png",
+      "galerij_1_2.png",
+      "galerij_1_3.png",
+      "galerij_1_4.png",
+      "galerij_1_5.png",
+      "galerij_1_6.png",
+      "galerij_1_7.png",
+      "galerij_1_8.png",
+      "galerij_1_9.png",
+      "galerij_1_10.png"
+    ],
+    "answers": [
+      "GA1 - Answer 1",
+      "GA1 - Answer 2",
+      "GA1 - Answer 3",
+      "GA1 - Answer 4",
+      "GA1 - Answer 5",
+      "GA1 - Answer 6",
+      "GA1 - Answer 7",
+      "GA1 - Answer 8",
+      "GA1 - Answer 9",
+      "GA1 - Answer 10"
     ]
   },
   {
-    "answers": [
-      "Hamer",
-      "Verfborstel",
-      "Schoevendraaier",
-      "Boor",
-      "Engelse sleutel",
-      "Kniptang",
-      "Vijl",
-      "Hark",
-      "Schup",
-      "Handschoenen"
-    ],
     "images": [
-      "https://i0.wp.com/www.echtuniek.nl/wp-content/uploads/2020/03/Hamer.png?fit=2953%2C2953&ssl=1",
-      "https://natuurverfwinkel.be/photos/image_1024.jpg",
-      "https://static.gamma.be/dam/15628/123",
-      "https://m.media-amazon.com/images/I/41Fa7G+zSjL._AC_UF1000,1000_QL80_.jpg",
-      "https://www.globusbazar.be/assets/images/products/generated/1a1282e1b1be8449955fbe3fd609d84645a0c274_338894.jpg?type=crop&w=1024&h=768",
-      "https://www.corona-webshop.be/data/images/product/403_1457532551_zijkniptangH145mm.jpg",
-      "https://www.globusbazar.be/assets/images/products/generated/4b10d7072da60b4bb3a1da46412b50c11be65e91_327407.jpg?type=crop&w=1024&h=768",
-      "https://dekampeerder.be/wp-content/uploads/2019/06/Hark.png",
-      "https://www.marketonweb.nl/media/catalog/product/cache/01c47c65c6366f36106643aa9f439aac/4/0/4008423891980_1.jpg",
-      "https://panelen.be/cdn/shop/products/A620GRR.jpg?v=1659016299&width=533"
+      "galerij_2_1.png",
+      "galerij_2_2.png",
+      "galerij_2_3.png",
+      "galerij_2_4.png",
+      "galerij_2_5.png",
+      "galerij_2_6.png",
+      "galerij_2_7.png",
+      "galerij_2_8.png",
+      "galerij_2_9.png",
+      "galerij_2_10.png"
+    ],
+    "answers": [
+      "GA2 - Answer 1",
+      "GA2 - Answer 2",
+      "GA2 - Answer 3",
+      "GA2 - Answer 4",
+      "GA2 - Answer 5",
+      "GA2 - Answer 6",
+      "GA2 - Answer 7",
+      "GA2 - Answer 8",
+      "GA2 - Answer 9",
+      "GA2 - Answer 10"
     ]
   },
   {
-    "answers": [
-      "Flitser",
-      "Chateau",
-      "Wolf",
-      "Cupido",
-      "Giraf",
-      "Tik en Tok",
-      "Hippo",
-      "Viool",
-      "Zebra",
-      "Mis poes"
-    ],
     "images": [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBJwaAHB5BoU7lmS941NnSBDBK29dYnqYdEQ&s",
-      "https://images.hln.be/YjNlNjEyMzdiMjljZDg3YzdlYTcvZGlvLzI2NDMzNDQ1NS9mb2N1cy1hbmQtZmlsbC8wLjUwLzAuNTAvMTgwMC8xMzUw/jacotte-brokken-ontmaskerd-in-the-masked-singer-het-eerste-dat-mijn-mama-zei-die-chateau-kan-absoluut-niet-zingen",
-      "https://image.demorgen.be/177375495/feature-crop/1200/1200/de-wolf-een-van-de-gemaskerde-zangers-in-de-vlaamse-versie",
-      "https://www.frontview-magazine.be/sites/default/files/styles/news_detail_big/public/article/230873-cupido-heeft-mijn-hart-veroverd-nooit-was-de-match-tussen-pak-en-deelnemer-zo-groot-in-the.jpg?itok=n-JUA-Qr",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5yM7ITwD0Syps5eeLW6ZPfNkpgAa4Znwj0A&s",
-      "https://img.static-rmg.be/a/view/q75/w/h/6542206/unnamed-14-jpg.jpg",
-      "https://cdn-radio.dpgmedia.net/2/3c/e1/8b/1541667/TMS_S3_afl09_K_010.JPG",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6RYwyOdEdN7mWFzToHP8TCRFz6hyNjRyQ-g&s",
-      "https://cdn-radio.dpgmedia.net/4/db/b5/b0/1574827/unnamed__9_.jpg",
-      "https://cdn-radio.dpgmedia.net/0/58/85/80/1506898/joe_TMS_show6.jpg"
+      "galerij_3_1.png",
+      "galerij_3_2.png",
+      "galerij_3_3.png",
+      "galerij_3_4.png",
+      "galerij_3_5.png",
+      "galerij_3_6.png",
+      "galerij_3_7.png",
+      "galerij_3_8.png",
+      "galerij_3_9.png",
+      "galerij_3_10.png"
+    ],
+    "answers": [
+      "GA3 - Answer 1",
+      "GA3 - Answer 2",
+      "GA3 - Answer 3",
+      "GA3 - Answer 4",
+      "GA3 - Answer 5",
+      "GA3 - Answer 6",
+      "GA3 - Answer 7",
+      "GA3 - Answer 8",
+      "GA3 - Answer 9",
+      "GA3 - Answer 10"
     ]
   }
 ]
