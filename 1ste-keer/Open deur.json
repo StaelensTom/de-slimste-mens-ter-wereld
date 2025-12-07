@@ -1,35 +1,35 @@
 [
   {
-    "image": "open-deur-1.png",
-    "question": "OD1 - Question?",
     "answers": [
-      "OD1 - Answer 1",
-      "OD1 - Answer 2",
-      "OD1 - Answer 3",
-      "OD1 - Answer 4"
+      "Tyranousaurus Rex",
+      "Uitgestorven",
+      "Mesozoïcum (Trias, Jura, Krijt)",
+      "reptielen"
     ],
-    "video": "open-deur-1.mp4"
+    "image": "https://cdn.boekhub.overamstel.com/styles/authorphoto/public/contentfile/contributor/2202_14703.jpg",
+    "question": "Wat weet je over dinos?",
+    "video": "https://youtu.be/Cnm4DqMZI7A?si=zQxv7RJNG6lfoVX1"
   },
   {
-    "image": "open-deur-2.png",
-    "question": "OD2 - Question?",
     "answers": [
-      "OD2 - Answer 1",
-      "OD2 - Answer 2",
-      "OD2 - Answer 3",
-      "OD2 - Answer 4"
+      "Londen",
+      "Gunners",
+      "zwart-geel",
+      "Premiere League (Engelse competitie)"
     ],
-    "video": "open-deur-2.mp4"
+    "image": "https://img.youtube.com/vi/jvRJP1qrdr4/maxresdefault.jpg",
+    "question": "Wat weet je over Arsenal?",
+    "video": "https://youtu.be/jvRJP1qrdr4"
   },
   {
-    "image": "open-deur-3.png",
-    "question": "OD3 - Question?",
     "answers": [
-      "OD3 - Answer 1",
-      "OD3 - Answer 2",
-      "OD3 - Answer 3",
-      "OD3 - Answer 4"
+      "Ken",
+      "Mattel",
+      "Skipper",
+      "Nikki"
     ],
-    "video": "open-deur-3.mp4"
+    "image": "https://img.youtube.com/vi/_jeyskdMm5A/maxresdefault.jpg",
+    "question": "Wat weet je over barbie?",
+    "video": "https://youtu.be/_jeyskdMm5A"
   }
 ]
