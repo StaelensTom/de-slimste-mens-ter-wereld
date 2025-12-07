@@ -132,19 +132,16 @@ button.float {
 	height: auto;
 	display: inline-block;
 	object-fit: contain;
+	max-height: 70vh; /* Default: 70% of viewport for all images */
 }
 
-.round.OpenDeur.current ~ .auxiliaryMedia img,
-.round[id*="Collectief geheugen"].current ~ .auxiliaryMedia img {
-	max-height: calc(100vh - 300px);
-	width: auto;
-	max-width: 100%;
+.game[data-round="Open deur"] .auxiliaryMedia img,
+.game[data-round="Collectief geheugen"] .auxiliaryMedia img {
+	max-height: calc(100vh - 400px); /* Reserve 400px for answers + controls */
 }
 
-.round.Galerij.current ~ .auxiliaryMedia img {
-	max-height: 70vh;
-	width: auto;
-	max-width: 100%;
+.game[data-round="Galerij"] .auxiliaryMedia img {
+	max-height: 75vh;
 }
 
 .scores {

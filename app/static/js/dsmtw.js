@@ -56,6 +56,14 @@ class DeSlimsteMens extends Gameshow {
 			Bumper.playBumper(state.current_round_text);
 			Sound.playSound("bumper");
 		}
+		
+		// Update data-round attribute for CSS styling
+		if (this.latestState.current_round_text != state.current_round_text) {
+			const gameContainer = document.querySelector('.game');
+			if (gameContainer && state.current_round_text) {
+				gameContainer.setAttribute('data-round', state.current_round_text);
+			}
+		}
 
 		// If the clock has been stopped server side (this is possible when all answers were found),
 		// we need to stop our local clock

@@ -9,7 +9,7 @@
 		<h1 id="bumper_text">Wie dit leest, is zot</h1>
 	</div>
 	<div class="container-fluid {% if not host %}client{% endif %}">
-		<div class="host" style="position: fixed; top: 0; top: 0; left: 0; right: 0;">
+		<div class="host" style="position: fixed; top: 0; left: 0; right: 0; background: rgba(0, 0, 0, 0.8); padding: 10px; z-index: 9999; backdrop-filter: blur(5px);">
 			<button onclick="javascript:dsmtw.advanceRound();">Advance round</button>
 			<button onclick="javascript:dsmtw.correct();">Correct</button>
 			<button onclick="javascript:dsmtw.pass();">Pass</button>
