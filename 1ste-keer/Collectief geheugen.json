@@ -1,35 +1,35 @@
 [
   {
-    "image": "collectief-geheugen-1.jpg",
     "answers": [
-      "CG1 - Answer 1",
-      "CG1 - Answer 2",
-      "CG1 - Answer 3",
-      "CG1 - Answer 4",
-      "CG1 - Answer 5"
+      "Buma",
+      "Clown",
+      "Bumbina",
+      "Bumbalu",
+      "Circus"
     ],
-    "video": "collectief-geheugen-1.mp4"
+    "image": "https://img.youtube.com/vi/d_FRt0LdYq0/maxresdefault.jpg",
+    "video": "https://youtu.be/d_FRt0LdYq0?si=DD68ruADAfAoqqKa"
   },
   {
-    "image": "collectief-geheugen-2.jpg",
     "answers": [
-      "CG2 - Answer 1",
-      "CG2 - Answer 2",
-      "CG2 - Answer 3",
-      "CG2 - Answer 4",
-      "CG2 - Answer 5"
+      "Elsa",
+      "Anna",
+      "Arendelle",
+      "Laat het los",
+      "ijs"
     ],
-    "video": "collectief-geheugen-2.mp4"
+    "image": "https://img.youtube.com/vi/5ddmISZWTAA/maxresdefault.jpg",
+    "video": "https://youtu.be/5ddmISZWTAA?si=Spa3M2xnqkOgLOOm"
   },
   {
-    "image": "collectief-geheugen-3.jpg",
     "answers": [
-      "CG3 - Answer 1",
-      "CG3 - Answer 2",
-      "CG3 - Answer 3",
-      "CG3 - Answer 4",
-      "CG3 - Answer 5"
+      "Vaiana",
+      "Oceaan",
+      "Maui",
+      "Heihei",
+      "Te Fiti"
     ],
-    "video": "collectief-geheugen-3.mp4"
+    "image": "https://img.youtube.com/vi/FpNcGOB_qVQ/maxresdefault.jpg",
+    "video": "https://youtu.be/FpNcGOB_qVQ?si=tAboANT7-b8-HfDb"
   }
 ]
