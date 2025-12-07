@@ -14,6 +14,8 @@ class DeSlimsteMens extends Gameshow {
 			this.playMainIntroClient(); });
 		this.websocket.on('play_round_intro_client', (roundText) => { 
 			this.playRoundIntroClient(roundText); });
+		this.websocket.on('close_video_all', () => { 
+			AuxiliaryMedia.closeVideo(); });
 
 		this._currentSubroundText = null;
 

@@ -62,10 +62,6 @@ class AuxiliaryMedia {
 	}
 	
 	static playVideo(filename) {
-		if (host) {
-			return;
-		}
-
 		// Check if it's a YouTube URL
 		const youtubeId = this.extractYouTubeId(filename);
 		
@@ -74,16 +70,35 @@ class AuxiliaryMedia {
 			let container = document.getElementById("auxiliaryMedia_youtube_container");
 			let iframe = document.getElementById("auxiliaryMedia_youtube");
 			
-			container.classList.remove("d-none");
-			iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
+			if (!host) {
+				container.classList.remove("d-none");
+				iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
+			}
+			
+			// Show host skip button
+			if (host) {
+				let hostBtn = document.getElementById("host_skip_video_btn");
+				if (hostBtn) hostBtn.classList.remove("d-none");
+			}
 		} else {
 			// Use regular video element for local files
-			let auxiliaryMediaElementVideo = document.getElementById("auxiliaryMedia_video");
-			auxiliaryMediaElementVideo.classList.remove("d-none");
-			auxiliaryMediaElementVideo.src = `resources/${filename}`;
-			auxiliaryMediaElementVideo.play();
+			if (!host) {
+				let auxiliaryMediaElementVideo = document.getElementById("auxiliaryMedia_video");
+				auxiliaryMediaElementVideo.classList.remove("d-none");
+				auxiliaryMediaElementVideo.src = `resources/${filename}`;
+				auxiliaryMediaElementVideo.play();
 
-			auxiliaryMediaElementVideo.onended = () => { auxiliaryMediaElementVideo.classList.add("d-none"); };
+				auxiliaryMediaElementVideo.onended = () => { 
+					auxiliaryMediaElementVideo.classList.add("d-none");
+					this.hideHostSkipButton();
+				};
+			}
+			
+			// Show host skip button
+			if (host) {
+				let hostBtn = document.getElementById("host_skip_video_btn");
+				if (hostBtn) hostBtn.classList.remove("d-none");
+			}
 		}
 	}
 	
@@ -100,6 +115,14 @@ class AuxiliaryMedia {
 		video.classList.add("d-none");
 		video.pause();
 		video.src = "";
+		
+		// Hide host skip button
+		this.hideHostSkipButton();
+	}
+	
+	static hideHostSkipButton() {
+		let hostBtn = document.getElementById("host_skip_video_btn");
+		if (hostBtn) hostBtn.classList.add("d-none");
 	}
 	
 	static extractYouTubeId(url) {

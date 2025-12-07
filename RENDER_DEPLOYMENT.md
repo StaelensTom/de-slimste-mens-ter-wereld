@@ -97,6 +97,27 @@ Render automatically:
 3. Deploys the new version
 4. Takes about 2-3 minutes
 
+### 📝 Question Management & Syncing
+
+The app includes a **manual sync system** to protect your question sets:
+
+1. **Edit questions** in the online editor ("Beheer vragenlijsten")
+2. Click **"Opslaan"** to save locally in browser
+3. Click **"💾 Bewaar naar server"** to commit to GitHub
+4. **Manually redeploy** on Render (or wait for auto-deploy if you push other changes)
+
+#### Protected Question Sets
+
+The following question sets are **protected** from being overwritten:
+- `default` - Template question set
+- `template` - Example question set
+
+This prevents accidental loss of reference materials. Create your own question sets by copying these templates.
+
+#### Sync Cooldown
+
+To prevent excessive GitHub commits, the sync button has a **5-minute cooldown** between syncs. This ensures your repository history stays clean and manageable.
+
 ## Monitoring Your App
 
 ### View Logs

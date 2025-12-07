@@ -60,6 +60,11 @@ class Gameshow
 		}
 	}
 
+	hostSkipVideo()
+	{
+		this.websocket.emit("host_skip_video");
+	}
+
 	renderState(event)
 	{
 		console.log("Received state");

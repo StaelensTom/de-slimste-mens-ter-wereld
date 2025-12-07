@@ -195,6 +195,12 @@ def io_open_deur_choose(questioneer_index):
 	if video_filename:
 		broadcast_video(video_filename)
 
+@socketio.on('host_skip_video', namespace=namespace)
+def io_host_skip_video():
+	"""Host skips video for all players"""
+	print("Host skipping video for all players")
+	socketio.emit("close_video_all")
+
 @socketio.on('restart_game', namespace=namespace)
 def io_restart_game():
 	"""Restart the game by reinitializing with the same players and questions"""
