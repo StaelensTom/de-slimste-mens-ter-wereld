@@ -130,8 +130,21 @@ button.float {
 .auxiliaryMedia img {
 	width: 100%;
 	height: auto;
-
 	display: inline-block;
+	object-fit: contain;
+}
+
+.round.OpenDeur.current ~ .auxiliaryMedia img,
+.round[id*="Collectief geheugen"].current ~ .auxiliaryMedia img {
+	max-height: calc(100vh - 300px);
+	width: auto;
+	max-width: 100%;
+}
+
+.round.Galerij.current ~ .auxiliaryMedia img {
+	max-height: 70vh;
+	width: auto;
+	max-width: 100%;
 }
 
 .scores {
