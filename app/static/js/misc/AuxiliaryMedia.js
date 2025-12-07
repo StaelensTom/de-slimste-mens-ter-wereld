@@ -129,6 +129,7 @@ class AuxiliaryMedia {
 		if (!url) return null;
 		const patterns = [
 			/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\?\/]+)/,
+			/youtube\.com\/shorts\/([^&\?\/]+)/, // YouTube Shorts support
 			/^([a-zA-Z0-9_-]{11})$/ // Direct video ID
 		];
 		for (const pattern of patterns) {
