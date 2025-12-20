@@ -162,7 +162,13 @@ def get_question_files(directory):
 	
 	files = glob.glob(os.path.join(directory, '*.json'))
 	file_names = [os.path.basename(f) for f in files]
-	return jsonify({'success': True, 'files': file_names})
+	
+	# Add cache-control headers to prevent browser caching
+	response = jsonify({'success': True, 'files': file_names})
+	response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+	response.headers['Pragma'] = 'no-cache'
+	response.headers['Expires'] = '0'
+	return response
 
 @main.route('/get_questions/<string:directory>/<string:filename>')
 def get_questions(directory, filename):
@@ -175,7 +181,13 @@ def get_questions(directory, filename):
 	try:
 		with open(filepath, 'r', encoding='utf-8') as f:
 			questions = json.load(f)
-		return jsonify(questions)
+		
+		# Add cache-control headers to prevent browser caching
+		response = jsonify(questions)
+		response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+		response.headers['Pragma'] = 'no-cache'
+		response.headers['Expires'] = '0'
+		return response
 	except Exception as e:
 		return jsonify({'success': False, 'error': str(e)}), 500
 

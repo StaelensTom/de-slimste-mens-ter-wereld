@@ -235,7 +235,9 @@
 			currentFile = filename;
 			document.getElementById('currentFileName').textContent = filename;
 			
-			fetch(`/get_questions/${currentDirectory}/${filename}`)
+			// Add cache-busting timestamp to always load latest version from server
+			const cacheBuster = `?t=${new Date().getTime()}`;
+			fetch(`/get_questions/${currentDirectory}/${filename}${cacheBuster}`)
 				.then(response => response.json())
 				.then(data => {
 					questionsData = data;
