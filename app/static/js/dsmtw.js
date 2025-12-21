@@ -140,6 +140,10 @@ class DeSlimsteMens extends Gameshow {
 				if (questioneersElement) questioneersElement.classList.add("d-none");
 				if (answersElement) answersElement.classList.add("d-none");
 				
+				// Hide auxiliaryMedia container (last Open Deur photo)
+				const auxiliaryMediaContainer = document.getElementById("container_auxiliaryMedia");
+				if (auxiliaryMediaContainer) auxiliaryMediaContainer.classList.add("d-none");
+				
 				// Hide host script button
 				if (host) {
 					const hostScriptSection = document.getElementById('opendeur_host_script_section');
