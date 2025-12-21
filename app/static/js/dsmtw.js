@@ -133,7 +133,7 @@ class DeSlimsteMens extends Gameshow {
 					populateOpenDeurHostScript(state.players);
 				}
 				break;
-			case "Interlude_Puzzel":
+			case "Interlude_Open_deur_Results":
 				// Hide Open Deur elements explicitly
 				const questioneersElement = document.getElementById("round_Open deur_questioneers");
 				const answersElement = document.getElementById("round_Open deur_answers");
@@ -152,7 +152,7 @@ class DeSlimsteMens extends Gameshow {
 				
 				// Populate interlude scores when entering this round
 				if (host) {
-					populateInterludePuzzelScores(state.players);
+					populateInterludeOpenDeurResultsScores(state.players);
 				}
 				break;
 			case "Puzzel":

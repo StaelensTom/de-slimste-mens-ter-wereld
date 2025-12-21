@@ -148,10 +148,10 @@ function populateOpenDeurHostScript(players) {
 	}
 }
 
-function populateInterludePuzzelScores(players) {
-	// Populate interlude Puzzel screen with player scores after Open Deur round
+function populateInterludeOpenDeurResultsScores(players) {
+	// Populate Open Deur Results interlude screen with player scores
 	if (!players || players.length < 3) {
-		console.warn('Not enough players to populate Puzzel interlude');
+		console.warn('Not enough players to populate Open Deur Results interlude');
 		return;
 	}
 	
@@ -169,12 +169,12 @@ function populateInterludePuzzelScores(players) {
 	const highest = scores[2];
 	
 	// Populate ranking
-	const lowestName = document.getElementById('interlude_puzzel_lowest_name');
-	const lowestScore = document.getElementById('interlude_puzzel_lowest_score');
-	const middleName = document.getElementById('interlude_puzzel_middle_name');
-	const middleScore = document.getElementById('interlude_puzzel_middle_score');
-	const highestName = document.getElementById('interlude_puzzel_highest_name');
-	const highestScore = document.getElementById('interlude_puzzel_highest_score');
+	const lowestName = document.getElementById('interlude_opendeur_lowest_name');
+	const lowestScore = document.getElementById('interlude_opendeur_lowest_score');
+	const middleName = document.getElementById('interlude_opendeur_middle_name');
+	const middleScore = document.getElementById('interlude_opendeur_middle_score');
+	const highestName = document.getElementById('interlude_opendeur_highest_name');
+	const highestScore = document.getElementById('interlude_opendeur_highest_score');
 	
 	if (lowestName) lowestName.textContent = lowest.name;
 	if (lowestScore) lowestScore.textContent = lowest.totalScore;

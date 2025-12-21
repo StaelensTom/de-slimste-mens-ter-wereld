@@ -7,7 +7,7 @@ from gameshow.gameshow import Gameshow
 
 class DeSlimsteMens(Gameshow):
 	def __init__(self, players, questions_directory, finale_rules=True):
-		rounds = [ "3-6-9", "Interlude_Open_deur", "Open deur", "Interlude_Puzzel", "Puzzel", "Galerij", "Collectief geheugen",
+		rounds = [ "3-6-9", "Interlude_Open_deur", "Open deur", "Interlude_Open_deur_Results", "Puzzel", "Galerij", "Collectief geheugen",
 				   "Finale" ]
 
 		no_players = len(players)
