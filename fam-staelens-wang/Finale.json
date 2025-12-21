@@ -91,42 +91,42 @@
   },
   {
     "answers": [
-      "Formule 1",
-      "Red Bull racing",
-      "Drie keer wereldkampioen",
-      "Jos Verstappen",
-      "Nederlander"
+      "Answer 1",
+      "Answer 2",
+      "Anwser 3",
+      "Answer 4",
+      "Answer 5"
     ],
-    "question": "Wat weet je over Max Verstappen?"
+    "question": "Question 10?"
   },
   {
     "answers": [
-      "Parijs",
-      "Gustave Eiffel",
-      "1889",
-      "Stijl/Ijzer",
-      "330 meter hoog"
+      "Answer 1",
+      "Answer 2",
+      "Anwser 3",
+      "Answer 4",
+      "Answer 5"
     ],
-    "question": "Wat weet je over de Eiffeltoren?"
+    "question": "Question 11?"
   },
   {
     "answers": [
-      "Oost-Vlaanderen",
-      "Gravensteen",
-      "Gentse Feesten",
-      "Het Lams Gods",
-      "Graslei"
+      "Answer 1",
+      "Answer 2",
+      "Anwser 3",
+      "Answer 4",
+      "Answer 5"
     ],
-    "question": "Wat weet je over de stad Gent"
+    "question": "Question 12?"
   },
   {
     "answers": [
-      "Eras tour",
-      "Grammy Awards",
-      "Swifties",
-      "Country en pop",
-      "Travis Kelce"
+      "Answer 1",
+      "Answer 2",
+      "Anwser 3",
+      "Answer 4",
+      "Answer 5"
     ],
-    "question": "Wat weet je over Taylor Swift"
+    "question": "Question 13?"
   }
 ]
