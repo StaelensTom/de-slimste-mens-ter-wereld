@@ -1,0 +1,55 @@
+<div id="round_Interlude_Open_deur" class="round">
+	<div style="display: flex; flex-direction: column; gap: 20px; align-items: center; max-width: 900px; margin: 0 auto;">
+		
+		<!-- Host Script Section 1: 3-6-9 Results -->
+		<div class="host" style="width: 100%;">
+			<h3 style="text-align: center; margin-bottom: 20px;">📊 Einde 3-6-9 Ronde</h3>
+			
+			<div id="interlude_369_results" style="background: rgba(0, 0, 0, 0.6); padding: 25px; border-radius: 10px; margin-bottom: 20px;">
+				<p style="font-size: 18px; line-height: 1.8; margin: 0;">
+					En dat brengt ons bij het einde van deze legendarische ronde, waar 
+					<strong id="interlude_player1_name">Speler 1</strong> <strong id="interlude_player1_score">0</strong> seconden heeft gescoord, 
+					<strong id="interlude_player2_name">Speler 2</strong> <strong id="interlude_player2_score">0</strong> en 
+					<strong id="interlude_player3_name">Speler 3</strong> <strong id="interlude_player3_score">0</strong>.<br><br>
+					
+					Dat geeft deze stand:<br>
+					<strong id="interlude_lowest_score">0</strong> voor <strong id="interlude_lowest_name">Speler</strong>,<br>
+					<strong id="interlude_middle_score">0</strong> voor <strong id="interlude_middle_name">Speler</strong><br>
+					en aan de leiding <strong id="interlude_highest_name">Speler</strong> met <strong id="interlude_highest_score">0</strong>.<br><br>
+					
+					<em>Tot zo meteen.</em>
+				</p>
+			</div>
+		</div>
+		
+		<!-- Button to Start Open Deur Intro -->
+		<button onclick="javascript:dsmtw.playOpenDeurInterlude();" 
+				class="host" 
+				style="background-color: #28a745; color: white; border: none; padding: 20px 40px; font-size: 20px; font-weight: bold; border-radius: 8px; cursor: pointer; min-width: 400px;">
+			🎬 Start Intro "Open Deur"
+		</button>
+		
+		<!-- Host Script Section 2: Open Deur Introduction (shown after intro) -->
+		<div class="host" style="width: 100%;">
+			<h3 style="text-align: center; margin-bottom: 20px;">📝 Open Deur Introductie</h3>
+			
+			<div id="interlude_opendeur_intro" style="background: rgba(0, 0, 0, 0.6); padding: 25px; border-radius: 10px; display: none;">
+				<p style="font-size: 18px; line-height: 1.8; margin: 0;">
+					<em>(Start tune Open Deur)</em><br><br>
+					
+					We zijn terug in de ronde waar iedereen 1 vraag krijgt waarbij 4 kernwoorden horen, die elk 20 seconden kunnen opleveren. 
+					Maar dit is onze eerste De Slimste Mens ter Wereld, dus we moeten al even recupereren. 
+					Dus laten we ons vervangen door deze knappe koppen.<br><br>
+					
+					<strong>Mieke</strong>, huispoes in Poezielaan. Overdag ligt ze lui en in de avond zoekt ze aaitjes voor het plezier.<br>
+					<strong>Tom</strong>, zonder twijfel, de knapste man van de avond, die sinds recent werkt voor Uber, maar niet als courier.<br>
+					<strong>Yang</strong>, ook zonder twijfel, de knapste vrouw van de avond, en een echte HR-database beheerder avonturier.<br><br>
+					
+					<strong id="interlude_lowest_name_2">Speler</strong>, jullie mogen als eerste kiezen.<br><br>
+					
+					<em>… mooie keuze. Hier is zijn/haar vraag.</em>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>

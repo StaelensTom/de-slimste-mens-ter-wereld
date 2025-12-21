@@ -4,17 +4,40 @@ class OpenDeur {
 		questioneersElement.classList.remove("d-none");
 		let answersElement = document.getElementById("round_Open deur_answers");
 		answersElement.classList.remove("d-none");
+		
+		// Hide photos if we're on Interlude_Puzzel (after Open Deur completes)
+		if (state.current_round_text === "Interlude_Puzzel") {
+			questioneersElement.classList.add("d-none");
+			answersElement.classList.add("d-none");
+			
+			// Also hide the host script button section
+			if (host) {
+				const hostScriptSection = document.getElementById('opendeur_host_script_section');
+				if (hostScriptSection) {
+					hostScriptSection.style.display = 'none';
+				}
+			}
+			return;
+		}
 
 		// No answer time, so show questioneers
 		if (!state.answer_time) {
 			answersElement.classList.add("d-none");
+			
+			// Show host script button when viewing doors
+			if (host) {
+				const hostScriptSection = document.getElementById('opendeur_host_script_section');
+				if (hostScriptSection) {
+					hostScriptSection.style.display = 'block';
+				}
+			}
 
 			questioneersElement.innerHTML = "";
-	
+
 			for (let i = 0; i < state.no_players; i++) {
 				let column = document.createElement("div");
 				column.className = "col";
-	
+
 				let image = document.createElement("img");
 				image.className = "questioneer";
 			
@@ -44,6 +67,14 @@ class OpenDeur {
 		// Answer time, so show answers
 		else {
 			questioneersElement.classList.add("d-none");
+			
+			// Hide host script button when viewing keywords
+			if (host) {
+				const hostScriptSection = document.getElementById('opendeur_host_script_section');
+				if (hostScriptSection) {
+					hostScriptSection.style.display = 'none';
+				}
+			}
 
 			if (host) {
 				document.getElementById("round_Open deur_question").innerHTML = 

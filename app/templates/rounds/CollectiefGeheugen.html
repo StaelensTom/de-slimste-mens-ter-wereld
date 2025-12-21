@@ -1,27 +1,66 @@
 <script src="/static/js/rounds/CollectiefGeheugen.js"></script>
 <div id="round_Collectief geheugen" class="round Collectief geheugen">
+	<!-- Host Script Section for Collectief Geheugen Intro (Host Only, First Video) -->
+	<div id="collectief_geheugen_intro_section" class="host" style="margin-bottom: 30px; text-align: center; display: none;">
+		<button onclick="showCollectiefGeheugenIntro()" 
+				style="background-color: #6c757d; color: white; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer;">
+			📖 Toon Script
+		</button>
+	</div>
+	
+	<!-- Hidden content for modal -->
+	<div id="collectief_geheugen_intro" style="display: none;">
+		<p style="font-size: 18px; line-height: 1.8; margin: 0;">
+			In deze ronde kijken we wie alles weet in de filmpjesronde. 
+			Alles is nog mogelijk, slechts 1 ding is zeker, na deze ronde weten we welke 2 teams mogen strijden voor de titel van slimste mens ter wereld. 
+			Hier komt het eerste fragment, en dat is voor <strong id="collectief_geheugen_lowest_name">Speler</strong>.
+		</p>
+	</div>
+	
 	<div id="round_Collectief geheugen_answers" class="row justify-content-center">
 		<div class="col-4 answers">
-			<p class="answer" onclick="">
+			<p class="answer">
 				<span class="score" id="round_Collectief geheugen_answer_score_0"></span>
 				<span class="text" id="round_Collectief geheugen_answer_0">Antwoord</span>
 			</p>
-			<p class="answer" onclick="">
+			<p class="answer">
 				<span class="score" id="round_Collectief geheugen_answer_score_1"></span>
 				<span class="text" id="round_Collectief geheugen_answer_1">Antwoord</span>
 			</p>
-			<p class="answer" onclick="">
+			<p class="answer">
 				<span class="score" id="round_Collectief geheugen_answer_score_2"></span>
 				<span class="text" id="round_Collectief geheugen_answer_2">Antwoord</span>
 			</p>
-			<p class="answer" onclick="">
+			<p class="answer">
 				<span class="score" id="round_Collectief geheugen_answer_score_3"></span>
 				<span class="text" id="round_Collectief geheugen_answer_3">Antwoord</span>
 			</p>
-			<p class="answer" onclick="">
+			<p class="answer">
 				<span class="score" id="round_Collectief geheugen_answer_score_4"></span>
 				<span class="text" id="round_Collectief geheugen_answer_4">Antwoord</span>
 			</p>
+		</div>
+	</div>
+	
+	<!-- Host Script Section for Collectief Geheugen Outro (Host Only, After Last Video) -->
+	<div id="collectief_geheugen_outro_section" class="host" style="margin-bottom: 30px; max-width: 900px; margin-left: auto; margin-right: auto; display: none;">
+		<h3 style="text-align: center; margin-bottom: 20px;">🏆 Einde Collectief Geheugen</h3>
+		
+		<div id="collectief_geheugen_outro" style="background: rgba(0, 0, 0, 0.6); padding: 25px; border-radius: 10px; margin-bottom: 20px;">
+			<p style="font-size: 18px; line-height: 1.8; margin: 0;">
+				We hebben een eindstand. <strong id="collectief_geheugen_eliminated_name">Speler</strong>, we moeten afscheid van jou nemen. 
+				We spelen met <strong id="collectief_geheugen_finalist1_name">Speler 1</strong> en <strong id="collectief_geheugen_finalist2_name">Speler 2</strong> het finalspel. 
+				Zijn jullie er klaar voor.<br><br>
+				
+				Jury, wie denken jullie die zal winnen?
+			</p>
+		</div>
+		
+		<div style="text-align: center;">
+			<button onclick="javascript:dsmtw.advanceRound();" 
+					style="background-color: #dc3545; color: white; border: none; padding: 20px 40px; font-size: 20px; font-weight: bold; border-radius: 8px; cursor: pointer; min-width: 400px;">
+				▶️ Start Finale
+			</button>
 		</div>
 	</div>
 </div>

@@ -38,6 +38,11 @@ class DeSlimsteMens extends Gameshow {
 			if (state.timer_running) {
 				this.timer.start();
 			}
+			
+			// Populate host script with player names (host only)
+			if (host && state.players) {
+				populateHostScriptPlayerNames(state.players);
+			}
 		}
 
 		// Detect game start - automatic intro disabled, use manual intro buttons instead
@@ -52,9 +57,12 @@ class DeSlimsteMens extends Gameshow {
 		}
 
 		// Detect round change
+		// Skip bumper/sound for interlude screens (they have their own manual trigger)
 		if ((this.latestState.current_round_text != state.current_round_text) && !host) {
-			Bumper.playBumper(state.current_round_text);
-			Sound.playSound("bumper");
+			if (!state.current_round_text.startsWith("Interlude_")) {
+				Bumper.playBumper(state.current_round_text);
+				Sound.playSound("bumper");
+			}
 		}
 		
 		// Update data-round attribute for CSS styling
@@ -77,8 +85,9 @@ class DeSlimsteMens extends Gameshow {
 		// Pass to super method
 		super.renderState(state);
 
-		// Debug
-		document.getElementById("currentround").innerHTML = state.current_round_text;
+		// Debug - hide interlude round names from display
+		const displayRoundText = state.current_round_text.startsWith("Interlude_") ? "" : state.current_round_text;
+		document.getElementById("currentround").innerHTML = displayRoundText;
 
 		// Hide all rounds...
 		let roundContainers = document.getElementsByClassName("round");
@@ -110,9 +119,26 @@ class DeSlimsteMens extends Gameshow {
 			case "3-6-9":
 				ThreeSixNine.renderState(state);
 				break;
+			case "Interlude_Open_deur":
+				// Populate interlude scores when entering this round
+				if (host) {
+					populateInterludeScores(state.players);
+				}
+				break;
 			case "Open deur":
 				OpenDeur.renderState(state);
 				Answers.renderAnswers(state);
+				// Populate and show host script for Open Deur
+				if (host) {
+					populateOpenDeurHostScript(state.players);
+					showOpenDeurHostScript();
+				}
+				break;
+			case "Interlude_Puzzel":
+				// Populate interlude scores when entering this round
+				if (host) {
+					populateInterludePuzzelScores(state.players);
+				}
 				break;
 			case "Puzzel":
 				Puzzel.renderState(state);
@@ -121,14 +147,48 @@ class DeSlimsteMens extends Gameshow {
 			case "Galerij":
 				Galerij.renderState(state);
 				Answers.renderAnswers(state);
+				// Populate host script only on first photo (subround 0)
+				if (host && state.current_subround === 0) {
+					populateGalerijHostScript(state.players);
+				}
 				break;
 			case "Collectief geheugen":
 				CollectiefGeheugen.renderState(state);
 				Answers.renderAnswers(state);
+				// Show intro section only on first video (subround 0)
+				if (host) {
+					const introSection = document.getElementById('collectief_geheugen_intro_section');
+					const outroSection = document.getElementById('collectief_geheugen_outro_section');
+					
+					if (state.current_subround === 0) {
+						if (introSection) introSection.style.display = 'block';
+						if (outroSection) outroSection.style.display = 'none';
+						populateCollectiefGeheugenIntro(state.players);
+					} else {
+						if (introSection) introSection.style.display = 'none';
+					}
+					
+					// Show outro section after last video (when to_advance is set)
+					if (state.to_advance === 'round') {
+						if (outroSection) outroSection.style.display = 'block';
+						populateCollectiefGeheugenOutro(state.players);
+					}
+				}
 				break;
 			case "Finale":
 				Finale.renderState(state);
 				Answers.renderAnswers(state);
+				// Show intro section only on first question (subround 0)
+				if (host) {
+					const introSection = document.getElementById('finale_intro_section');
+					
+					if (state.current_subround === 0) {
+						if (introSection) introSection.style.display = 'block';
+						populateFinaleIntro(state.players);
+					} else {
+						if (introSection) introSection.style.display = 'none';
+					}
+				}
 				break;
 		}
 
@@ -235,6 +295,25 @@ class DeSlimsteMens extends Gameshow {
 		if (!host) {
 			Bumper.playBumper(roundText);
 			Sound.playSound("bumper");
+		}
+	}
+	
+	playOpenDeurInterlude() {
+		// Trigger Open Deur intro from interlude screen (host only)
+		if (host) {
+			// Show the Open Deur intro text
+			showOpenDeurIntro();
+			
+			// Broadcast intro to all clients
+			this.websocket.emit('play_round_intro', 'Open deur');
+		}
+	}
+	
+	playPuzzelInterlude() {
+		// Trigger Puzzel intro from interlude screen (host only)
+		if (host) {
+			// Broadcast intro to all clients and advance to Puzzel round
+			this.websocket.emit('play_round_intro', 'Puzzel');
 		}
 	}
 }

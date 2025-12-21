@@ -1,5 +1,24 @@
 <script src="/static/js/rounds/Puzzel.js"></script>
 <div id="round_Puzzel" class="round Puzzel">
+	<!-- Host Script Section for Puzzel (Host Only) -->
+	<div class="host" style="margin-bottom: 30px; text-align: center;">
+		<button onclick="showPuzzelHostScript()" 
+				style="background-color: #6c757d; color: white; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer;">
+			📖 Toon Script
+		</button>
+	</div>
+	
+	<!-- Hidden content for modal -->
+	<div id="puzzel_host_script" style="display: none;">
+		<p style="font-size: 18px; line-height: 1.8; margin: 0;">
+			<em>(Tune puzzel ronde)</em><br><br>
+			
+			Zet je fobie voor de puzzel ronde maar aan de kant, want hier zijn we er mee. 
+			Zoek de 3 verbanden, want elk goede oplossing levert je 30 seconden op. 
+			Hier komt de eerste puzzel.
+		</p>
+	</div>
+	
 	<div id="round_Puzzel_puzzle" class="row text-center justify-content-center pb-4">
 		<div class="col-6">
 			<table id="round_Puzzel_puzzle_table" cellpadding="25">
@@ -28,15 +47,15 @@
 	</div>
 	<div id="round_Puzzel_answers" class="row justify-content-center">
 		<div class="col-4 answers">
-			<p class="answer" onclick="">
+			<p class="answer">
 				<span class="score" id="round_Puzzel_answer_score_0">30</span>
 				<span class="text" id="round_Puzzel_answer_0">Antwoord</span>
 			</p>
-			<p class="answer" onclick="">
+			<p class="answer">
 				<span class="score" id="round_Puzzel_answer_score_1">30</span>
 				<span class="text" id="round_Puzzel_answer_1">Antwoord</span>
 			</p>
-			<p class="answer" onclick="">
+			<p class="answer">
 				<span class="score" id="round_Puzzel_answer_score_2">30</span>
 				<span class="text" id="round_Puzzel_answer_2">Antwoord</span>
 			</p>

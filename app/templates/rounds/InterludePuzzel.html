@@ -1,0 +1,36 @@
+<div id="round_Interlude_Puzzel" class="round">
+	<div style="display: flex; flex-direction: column; gap: 20px; align-items: center; max-width: 900px; margin: 0 auto;">
+		
+		<!-- Host Script Section: Open Deur Results -->
+		<div class="host" style="width: 100%;">
+			<h3 style="text-align: center; margin-bottom: 20px;">📊 Einde Open Deur Ronde</h3>
+			
+			<div id="interlude_puzzel_results" style="background: rgba(0, 0, 0, 0.6); padding: 25px; border-radius: 10px; margin-bottom: 20px;">
+				<p style="font-size: 18px; line-height: 1.8; margin: 0;">
+					We gaan kijken naar de stand op het einde van deze ronde.<br>
+					<strong id="interlude_puzzel_lowest_name">Speler</strong> <strong id="interlude_puzzel_lowest_score">0</strong> seconden,<br>
+					<strong id="interlude_puzzel_middle_name">Speler</strong> <strong id="interlude_puzzel_middle_score">0</strong> seconden<br>
+					en aan de leiding staat <strong id="interlude_puzzel_highest_name">Speler</strong> op <strong id="interlude_puzzel_highest_score">0</strong> seconden.
+				</p>
+			</div>
+		</div>
+		
+		<!-- Button to Start Puzzel Intro -->
+		<button onclick="javascript:dsmtw.playPuzzelInterlude();" 
+				class="host" 
+				style="background-color: #28a745; color: white; border: none; padding: 20px 40px; font-size: 20px; font-weight: bold; border-radius: 8px; cursor: pointer; min-width: 400px;">
+			🎬 Start Intro "Puzzel"
+		</button>
+		
+		<!-- Hidden content for modal -->
+		<div id="interlude_puzzel_intro" style="display: none;">
+			<p style="font-size: 18px; line-height: 1.8; margin: 0;">
+				<em>(Tune puzzel ronde)</em><br><br>
+				
+				Zet je fobie voor de puzzel ronde maar aan de kant, want hier zijn we er mee. 
+				Zoek de 3 verbanden, want elk goede oplossing levert je 30 seconden op. 
+				Hier komt de eerste puzzel.
+			</p>
+		</div>
+	</div>
+</div>

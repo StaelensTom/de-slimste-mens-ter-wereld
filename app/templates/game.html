@@ -70,10 +70,61 @@
 								style="background-color: #dc3545; color: white; border: none; padding: 20px 40px; font-size: 20px; font-weight: bold; border-radius: 8px; cursor: pointer; min-width: 300px;">
 							▶️ Start het spel (zonder intro)
 						</button>
+						
+						<!-- Host Introduction Script (Host Only) -->
+						<div class="host" style="margin-top: 40px;">
+							<button onclick="showStartHostScripts()" 
+									style="background-color: #6c757d; color: white; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer;">
+								� Toon Host Scripts
+							</button>
+						</div>
+						
+						<!-- Hidden content for modal -->
+						<div id="host_script_1" style="display: none;">
+							<p style="font-size: 18px; line-height: 1.6; margin: 0;">
+								Wie is de slimste mens ter wereld. Wie heeft geen nood aan een souffleur, maar weet dat hard werk ook komt met hard labeur. 
+								Wie kent alle gassen in onze atmosfeer, en weet dat Pyrus communis latijn is voor de gewone peer. 
+								En dat ik mijn cola zonder ijsblokken bestel, want dan krijg je meer.<br><br>
+								
+								Is het misschien <strong id="player_name_1_1">Speler 1</strong> - <em>kort rijmpje</em><br>
+								Of is het misschien <strong id="player_name_2_1">Speler 2</strong> - <em>kort rijmpje</em><br>
+								Zij worden uitgedaagd door <strong id="player_name_3_1">Speler 3</strong> - <em>kort rijmpje</em><br><br>
+								
+								<strong>Welkom bij de finale van de slimste mens ter wereld.</strong>
+							</p>
+						</div>
+						
+						<div id="host_script_2" style="display: none;">
+							<p style="font-size: 18px; line-height: 1.6; margin: 0;">
+								Dag <strong id="player_name_1_2">Speler 1</strong>, <strong id="player_name_2_2">Speler 2</strong> en <strong id="player_name_3_2">Speler 3</strong>.<br><br>
+								
+								Jullie kennen de eerste vraag "Zouden jullie de slimste mens ter wereld kunnen worden"?<br>
+								Van wie ben je het meeste bang, <strong id="player_name_2_3">Speler 2</strong> of <strong id="player_name_3_3">Speler 3</strong>?<br><br>
+								
+								Het wordt tijd om de jury officieel voor te stellen: <strong>jurylid 1</strong> en <strong>jurylid 2</strong>.<br>
+								De kandidaten, prachtig. Wat verwachten jullie van de kandidaten?
+							</p>
+						</div>
+						
+						<div id="host_script_3" style="display: none;">
+							<p style="font-size: 18px; line-height: 1.6; margin: 0;">
+								Ik ga 60 seconden uitdelen aan ieder van jullie. Dat is jullie startkapitaal, en je verdient bijkomende seconden per goed antwoord, mogelijk ook in de finale. 
+								En we beginnen bij 3-6-9<br>
+								<em>(klik op tune 3-6-9)</em><br><br>
+								
+								De slimste mens kent alle deelgebergten van de karpaten. En babbelt vlotjes over nitraten en fosfaten. 
+								Maar steekt het ook wijselijk op de hond wanneer je een wind hebt gelaten. Dat is waar, he. 
+								12 vragen, wie juist antwoord blijft aan de beurt. En elke 3de vraag levert 10 seconden op.<br><br>
+								
+								<strong id="player_name_1_3">Speler 1</strong>, ik begin bij jou.
+							</p>
+						</div>
 					</div>
 				</div>
 				{% include "rounds/369.html" %}
+				{% include "rounds/InterludeOpenDeur.html" %}
 				{% include "rounds/OpenDeur.html" %}
+				{% include "rounds/InterludePuzzel.html" %}
 				{% include "rounds/Puzzel.html" %}
 				{% include "rounds/Galerij.html" %}
 				{% include "rounds/CollectiefGeheugen.html" %}

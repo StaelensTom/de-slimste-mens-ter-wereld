@@ -48,11 +48,30 @@ def io_play_main_intro():
 	socketio.emit("play_main_intro_client")
 
 @socketio.on('play_round_intro', namespace=namespace)
-def io_play_round_intro():
-	"""Play the current round intro (3-6-9) without advancing"""
+def io_play_round_intro(round_text=None):
+	"""Play a round intro and optionally advance to that round"""
 	game = current_app.config["game"]
 	if game:
-		socketio.emit("play_round_intro_client", game.current_round_text)
+		# Use provided round text or current round
+		if round_text is None:
+			round_text = game.current_round_text
+		
+		# Broadcast intro to all clients
+		socketio.emit("play_round_intro_client", round_text)
+		
+		# If we're in an interlude and playing the next round intro, advance to that round
+		if game.current_round_text == "Interlude_Open_deur" and round_text == "Open deur":
+			game.advance_round()
+			broadcast_state()
+		elif game.current_round_text == "Interlude_Puzzel" and round_text == "Puzzel":
+			game.advance_round()
+			broadcast_state()
+
+@socketio.on('play_round_intro_no_advance', namespace=namespace)
+def io_play_round_intro_no_advance(round_text):
+	"""Play a round intro without advancing (for Puzzel interlude)"""
+	# Just broadcast the intro, don't advance
+	socketio.emit("play_round_intro_client", round_text)
 
 @socketio.on('start_game', namespace=namespace)
 def io_start_game():

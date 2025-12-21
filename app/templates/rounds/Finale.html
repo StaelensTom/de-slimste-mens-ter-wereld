@@ -1,29 +1,52 @@
 <script src="/static/js/rounds/Finale.js"></script>
 <div id="round_Finale" class="round Finale">
+	<!-- Host Script Section for Finale (Host Only, First Question) -->
+	<div id="finale_intro_section" class="host" style="margin-bottom: 30px; text-align: center; display: none;">
+		<button onclick="showFinaleIntro()" 
+				style="background-color: #6c757d; color: white; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer;">
+			📖 Toon Script
+		</button>
+	</div>
+	
+	<!-- Hidden content for modal -->
+	<div id="finale_intro" style="display: none;">
+		<p style="font-size: 18px; line-height: 1.8; margin: 0;">
+			Je moet de tijd van de andere op 0 krijgen. 
+			Dat doe je door goede antwoorden te geven, want per goed antwoord gaan er 20 seconden af bij de tegenstander. 
+			En de vraag gaat telkens eerst naar diegene met de minste seconden. 
+			Roep je stop, dan gaat de beurt naar de volgende. 
+			En we zoeken altijd 5 mogelijke antwoorden.<br><br>
+			
+			<strong id="finale_player1_name">Speler 1</strong> <strong id="finale_player1_score">0</strong> seconden, 
+			<strong id="finale_player2_name">Speler 2</strong> <strong id="finale_player2_score">0</strong> seconden. 
+			<strong id="finale_starting_player">Speler</strong>, we beginnen bij jou.
+		</p>
+	</div>
+	
 	<div id="round_Finale_answers" class="row justify-content-center">
 		<div class="host">
 			<h4 id="round_Finale_question" class="question">Vraag</h4>
 		</div>
 		<div class="col-12 answers text-center">
-			<p class="answer" onclick="">
+			<p class="answer">
 				<span class="score" id="round_Finale_answer_score_0">20</span>
 				<span class="text" id="round_Finale_answer_0">Antwoord</span>
 			</p>
-			<p class="answer" onclick="">
+			<p class="answer">
 				<span class="score" id="round_Finale_answer_score_1">20</span>
 				<span class="text" id="round_Finale_answer_1">Antwoord</span>
 			</p>
-			<p class="answer" onclick="">
+			<p class="answer">
 				<span class="score" id="round_Finale_answer_score_2">20</span>
 				<span class="text" id="round_Finale_answer_2">Antwoord</span>
 			</p>
 		</div>
 		<div class="col-12 answers text-center">
-			<p class="answer" onclick="">
+			<p class="answer">
 				<span class="score" id="round_Finale_answer_score_3">20</span>
 				<span class="text" id="round_Finale_answer_3">Antwoord</span>
 			</p>
-			<p class="answer" onclick="">
+			<p class="answer">
 				<span class="score" id="round_Finale_answer_score_4">20</span>
 				<span class="text" id="round_Finale_answer_4">Antwoord</span>
 			</p>

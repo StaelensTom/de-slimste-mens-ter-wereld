@@ -1,5 +1,32 @@
 <script src="/static/js/rounds/OpenDeur.js"></script>
 <div id="round_Open deur" class="round OpenDeur">
+	<!-- Host Script Section for Open Deur (Host Only) -->
+	<div id="opendeur_host_script_section" class="host" style="margin-bottom: 30px; text-align: center; display: none;">
+		<button onclick="showOpenDeurHostScript()" 
+				style="background-color: #6c757d; color: white; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer;">
+			📖 Toon Script
+		</button>
+	</div>
+	
+	<!-- Hidden content for modal -->
+	<div id="opendeur_host_script" style="display: none;">
+		<p style="font-size: 18px; line-height: 1.8; margin: 0;">
+			<em>(Start tune Open Deur)</em><br><br>
+			
+			We zijn terug in de ronde waar iedereen 1 vraag krijgt waarbij 4 kernwoorden horen, die elk 20 seconden kunnen opleveren. 
+			Maar dit is onze eerste De Slimste Mens ter Wereld, dus we moeten al even recupereren. 
+			Dus laten we ons vervangen door deze knappe koppen.<br><br>
+			
+			<strong>Mieke</strong>, huispoes in Poezielaan. Overdag ligt ze lui en in de avond zoekt ze aaitjes voor het plezier.<br>
+			<strong>Tom</strong>, zonder twijfel, de knapste man van de avond, die sinds recent werkt voor Uber, maar niet als courier.<br>
+			<strong>Yang</strong>, ook zonder twijfel, de knapste vrouw van de avond, en een echte HR-database beheerder avonturier.<br><br>
+			
+			<strong id="opendeur_lowest_name">Speler</strong>, jullie mogen als eerste kiezen.<br><br>
+			
+			<em>… mooie keuze. Hier is zijn/haar vraag.</em>
+		</p>
+	</div>
+	
 	<div id="round_Open deur_questioneers" class="row">
 	</div>
 	<div id="round_Open deur_answers" class="row justify-content-center">
@@ -7,19 +34,19 @@
 			<h4 id="round_Open deur_question" class="question">Vraag</h4>
 		</div>
 		<div class="col-4 answers">
-			<p class="answer" onclick="">
+			<p class="answer">
 				<span class="score" id="round_Open deur_answer_score_0">20</span>
 				<span class="text" id="round_Open deur_answer_0">Antwoord</span>
 			</p>
-			<p class="answer" onclick="">
+			<p class="answer">
 				<span class="score" id="round_Open deur_answer_score_1">20</span>
 				<span class="text" id="round_Open deur_answer_1">Antwoord</span>
 			</p>
-			<p class="answer" onclick="">
+			<p class="answer">
 				<span class="score" id="round_Open deur_answer_score_2">20</span>
 				<span class="text" id="round_Open deur_answer_2">Antwoord</span>
 			</p>
-			<p class="answer" onclick="">
+			<p class="answer">
 				<span class="score" id="round_Open deur_answer_score_3">20</span>
 				<span class="text" id="round_Open deur_answer_3">Antwoord</span>
 			</p>
