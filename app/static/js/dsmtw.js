@@ -128,13 +128,24 @@ class DeSlimsteMens extends Gameshow {
 			case "Open deur":
 				OpenDeur.renderState(state);
 				Answers.renderAnswers(state);
-				// Populate and show host script for Open Deur
+				// Populate host script for Open Deur (but don't auto-show)
 				if (host) {
 					populateOpenDeurHostScript(state.players);
-					showOpenDeurHostScript();
 				}
 				break;
 			case "Interlude_Puzzel":
+				// Hide Open Deur elements explicitly
+				const questioneersElement = document.getElementById("round_Open deur_questioneers");
+				const answersElement = document.getElementById("round_Open deur_answers");
+				if (questioneersElement) questioneersElement.classList.add("d-none");
+				if (answersElement) answersElement.classList.add("d-none");
+				
+				// Hide host script button
+				if (host) {
+					const hostScriptSection = document.getElementById('opendeur_host_script_section');
+					if (hostScriptSection) hostScriptSection.style.display = 'none';
+				}
+				
 				// Populate interlude scores when entering this round
 				if (host) {
 					populateInterludePuzzelScores(state.players);
