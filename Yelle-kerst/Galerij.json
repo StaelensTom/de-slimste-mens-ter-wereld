@@ -1,43 +1,31 @@
 [
   {
-    "images": [
-      "galerij_1_1.png",
-      "galerij_1_2.png",
-      "galerij_1_3.png",
-      "galerij_1_4.png",
-      "galerij_1_5.png",
-      "galerij_1_6.png",
-      "galerij_1_7.png",
-      "galerij_1_8.png",
-      "galerij_1_9.png",
-      "galerij_1_10.png"
-    ],
     "answers": [
-      "GA1 - Answer 1",
-      "GA1 - Answer 2",
-      "GA1 - Answer 3",
-      "GA1 - Answer 4",
-      "GA1 - Answer 5",
-      "GA1 - Answer 6",
-      "GA1 - Answer 7",
-      "GA1 - Answer 8",
-      "GA1 - Answer 9",
-      "GA1 - Answer 10"
+      "Kerstman",
+      "Haai",
+      "Balerina",
+      "Brandweerman",
+      "Astronaut",
+      "Piraat",
+      "Politieagent",
+      "Dokter",
+      "Scheidsrechter",
+      "Tovenaar"
+    ],
+    "images": [
+      "https://www.lego.com/cdn/cs/set/assets/bltc307fd1f5230e03d/40820_Prod_en-gb.png?format=webply&fit=bounds&quality=80&width=400&height=400&dpr=2",
+      "https://www.lego.com/cdn/cs/set/assets/blt467a9740c81a9c57/5006848.jpg?format=webply&fit=bounds&quality=80&width=400&height=400&dpr=2",
+      "https://brickplanet.be/shops/brick-planet/thumbs/serie-15-10-ballerina-complete-set.jpg",
+      "https://minifigs.me/cdn/shop/files/FIREman2J.jpg?v=1737373099&width=720",
+      "https://minifigs.me/cdn/shop/files/Orange-Shuttle-Astronaut-OpenSmile-Baseplate.jpg",
+      "https://minifigs.me/cdn/shop/products/pirate-front_b8955de6-af5d-49f7-90b5-d34f96c46c34.jpg",
+      "https://minifigs.me/cdn/shop/files/US-PoliceOfficer-StandardClosedSmile.jpg",
+      "https://minifigs.me/cdn/shop/products/doctor-baseplate.jpg",
+      "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSj_FMKOMHfq72YWyLygy4cEFoVenAYCXgEAQdYzQyTWev0k7U0JZUfv1yHrmOx4R9_YLmzqlhfD9J4idEVXCuXsH7vQkW5TZkPmxvZs1_URUd9nxz1cvcm",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROurHeraI-LmGFm7zN-GE1oO-k1iPI-bJ61A&s"
     ]
   },
   {
-    "images": [
-      "galerij_2_1.png",
-      "galerij_2_2.png",
-      "galerij_2_3.png",
-      "galerij_2_4.png",
-      "galerij_2_5.png",
-      "galerij_2_6.png",
-      "galerij_2_7.png",
-      "galerij_2_8.png",
-      "galerij_2_9.png",
-      "galerij_2_10.png"
-    ],
     "answers": [
       "GA2 - Answer 1",
       "GA2 - Answer 2",
@@ -49,21 +37,21 @@
       "GA2 - Answer 8",
       "GA2 - Answer 9",
       "GA2 - Answer 10"
+    ],
+    "images": [
+      "galerij_2_1.png",
+      "galerij_2_2.png",
+      "galerij_2_3.png",
+      "galerij_2_4.png",
+      "galerij_2_5.png",
+      "galerij_2_6.png",
+      "galerij_2_7.png",
+      "galerij_2_8.png",
+      "galerij_2_9.png",
+      "galerij_2_10.png"
     ]
   },
   {
-    "images": [
-      "galerij_3_1.png",
-      "galerij_3_2.png",
-      "galerij_3_3.png",
-      "galerij_3_4.png",
-      "galerij_3_5.png",
-      "galerij_3_6.png",
-      "galerij_3_7.png",
-      "galerij_3_8.png",
-      "galerij_3_9.png",
-      "galerij_3_10.png"
-    ],
     "answers": [
       "GA3 - Answer 1",
       "GA3 - Answer 2",
@@ -75,6 +63,18 @@
       "GA3 - Answer 8",
       "GA3 - Answer 9",
       "GA3 - Answer 10"
+    ],
+    "images": [
+      "galerij_3_1.png",
+      "galerij_3_2.png",
+      "galerij_3_3.png",
+      "galerij_3_4.png",
+      "galerij_3_5.png",
+      "galerij_3_6.png",
+      "galerij_3_7.png",
+      "galerij_3_8.png",
+      "galerij_3_9.png",
+      "galerij_3_10.png"
     ]
   }
 ]

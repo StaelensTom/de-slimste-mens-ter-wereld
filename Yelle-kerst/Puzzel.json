@@ -1,83 +1,83 @@
 [
   {
+    "answer": "Computer",
     "keywords": [
-      "A1 - Keyword 1",
-      "A1 - Keyword 2",
-      "A1 - Keyword 3",
-      "A1 - Keyword 4"
-    ],
-    "answer": "Answer 1"
+      "Scherm",
+      "Toetsenbord",
+      "Programmeren",
+      "Geen smartphone"
+    ]
   },
   {
+    "answer": "Knaagdieren",
     "keywords": [
-      "A2 - Keyword 1",
-      "A2 - Keyword 2",
-      "A2 - Keyword 3",
-      "A2 - Keyword 4"
-    ],
-    "answer": "Answer 2"
+      "Hamster",
+      "Cavia",
+      "Eekhoorn",
+      "Muis"
+    ]
   },
   {
+    "answer": "Tekenfilm-figuren",
     "keywords": [
-      "A3 - Keyword 1",
-      "A3 - Keyword 2",
-      "A3 - Keyword 3",
-      "A3 - Keyword 4"
-    ],
-    "answer": "Answer 3"
+      "Mickey & Minnie",
+      "Tom & Jerry",
+      "Bugs Bunny",
+      "Pikachu"
+    ]
   },
   {
+    "answer": "Chocoladerepen",
     "keywords": [
-      "A1 - Keyword 1",
-      "A1 - Keyword 2",
-      "A1 - Keyword 3",
-      "A1 - Keyword 4"
-    ],
-    "answer": "Answer 1"
+      "Snickers",
+      "Twix",
+      "Bounty",
+      "Mars"
+    ]
   },
   {
+    "answer": "Planeten",
     "keywords": [
-      "A2 - Keyword 1",
-      "A2 - Keyword 2",
-      "A2 - Keyword 3",
-      "A2 - Keyword 4"
-    ],
-    "answer": "Answer 2"
+      "Aarde",
+      "Jupiter",
+      "Venus",
+      "Neptunus"
+    ]
   },
   {
+    "answer": "Sterrenbeelden",
     "keywords": [
-      "A3 - Keyword 1",
-      "A3 - Keyword 2",
-      "A3 - Keyword 3",
-      "A3 - Keyword 4"
-    ],
-    "answer": "Answer 3"
+      "Ram",
+      "Leeuw",
+      "Tweelingen",
+      "Schorpioen"
+    ]
   },
   {
+    "answer": "Balsporten",
     "keywords": [
-      "A1 - Keyword 1",
-      "A1 - Keyword 2",
-      "A1 - Keyword 3",
-      "A1 - Keyword 4"
-    ],
-    "answer": "Answer 1"
+      "Voetbal",
+      "Tennis",
+      "Basketbal",
+      "Volleybal"
+    ]
   },
   {
+    "answer": "Boerderijdieren",
     "keywords": [
-      "A2 - Keyword 1",
-      "A2 - Keyword 2",
-      "A2 - Keyword 3",
-      "A2 - Keyword 4"
-    ],
-    "answer": "Answer 2"
+      "Koe",
+      "Varken",
+      "Schaap",
+      "Geit"
+    ]
   },
   {
+    "answer": "Turnmateriaal",
     "keywords": [
-      "A3 - Keyword 1",
-      "A3 - Keyword 2",
-      "A3 - Keyword 3",
-      "A3 - Keyword 4"
-    ],
-    "answer": "Answer 3"
+      "Ringen",
+      "Mat",
+      "Trampoline",
+      "Bok"
+    ]
   }
 ]
