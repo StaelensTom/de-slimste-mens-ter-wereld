@@ -476,11 +476,13 @@ class DeSlimsteMens(Gameshow):
 
 			# If we're still in the answering stage, pass the turn to another player
 			if not self.overview:
+				# Stop the clock for the current player BEFORE changing turns
+				self.clock_stop(pass_turn=False)
+				
+				# Now pass the turn to another player
 				self.handle_list_answer_pass()
 				# Hide last image
 				self.current_question["image"] = None
-
-				self.clock_stop(pass_turn=False)
 			# If we're in the review stage, advance the subround
 			else:
 				self.advance_subround()
