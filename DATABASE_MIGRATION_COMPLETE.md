@@ -78,10 +78,12 @@ Successfully migrated from file-based question storage to **Supabase PostgreSQL 
 Go to Render Dashboard → Your Service → Environment:
 
 ```
-SUPABASE_URL=https://dlqwhihbjemyjebceoac.supabase.co
-SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRscXdoaWhiamVteWplYmNlb2FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY3NzM1MDUsImV4cCI6MjA4MjM0OTUwNX0.aT0Wold2duDB1KS2SMqsyvisYx9lJiTRyJdE4brAncw
-SUPABASE_SERVICE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRscXdoaWhiamVteWplYmNlb2FjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2Njc3MzUwNSwiZXhwIjoyMDgyMzQ5NTA1fQ.cqwzxy8ZvZyh9D3o4fQwMEwmJYaYukJGuCLB5jJyB-A
+SUPABASE_URL=<your-supabase-project-url>
+SUPABASE_ANON_KEY=<your-anon-public-key>
+SUPABASE_SERVICE_KEY=<your-service-role-key>
 ```
+
+**Get these values from:** Supabase Dashboard → Settings → API
 
 ### 2. Commit and Push Changes
 
