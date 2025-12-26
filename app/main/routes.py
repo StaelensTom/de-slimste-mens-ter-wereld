@@ -9,6 +9,16 @@ from . import main
 from flask import current_app
 from erik.dsmtw import DeSlimsteMens
 from app.github_sync import github_sync
+from app.db_service import db_service
+from app.main.routes_db import (
+    get_all_question_sets_db,
+    get_question_files_db,
+    get_questions_db,
+    save_questions_db,
+    create_question_set_db,
+    delete_question_set_db,
+    upload_image_db
+)
 
 @main.route('/')
 def landing():
@@ -144,26 +154,43 @@ def get_max_players(directory):
 @main.route('/manage_questions')
 def manage_questions():
 	"""Show question management interface"""
-	# Get available question directories (exclude template)
-	question_dirs = []
-	for item in os.listdir('.'):
-		if os.path.isdir(item) and not item.startswith('.') and not item.startswith('_') and item != 'template':
-			# Check if directory contains JSON files
-			if glob.glob(os.path.join(item, '*.json')):
-				question_dirs.append(item)
+	# Get question sets from database
+	try:
+		question_sets = get_all_question_sets_db()
+		question_dirs = [qs['name'] for qs in question_sets if not qs.get('is_template')]
+	except Exception as e:
+		print(f"Database error, falling back to file system: {e}")
+		# Fallback to file system
+		question_dirs = []
+		for item in os.listdir('.'):
+			if os.path.isdir(item) and not item.startswith('.') and not item.startswith('_') and item != 'template':
+				if glob.glob(os.path.join(item, '*.json')):
+					question_dirs.append(item)
 	
 	return render_template('manage_questions.html', question_dirs=question_dirs)
 
 @main.route('/get_question_files/<string:directory>')
 def get_question_files(directory):
 	"""Get list of JSON files in a question directory"""
+	# Try database first
+	try:
+		result = get_question_files_db(directory)
+		if result['success']:
+			response = jsonify(result)
+			response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+			response.headers['Pragma'] = 'no-cache'
+			response.headers['Expires'] = '0'
+			return response
+	except Exception as e:
+		print(f"Database error: {e}")
+	
+	# Fallback to file system
 	if not os.path.isdir(directory):
 		return jsonify({'success': False, 'error': 'Directory not found'}), 404
 	
 	files = glob.glob(os.path.join(directory, '*.json'))
 	file_names = [os.path.basename(f) for f in files]
 	
-	# Add cache-control headers to prevent browser caching
 	response = jsonify({'success': True, 'files': file_names})
 	response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
 	response.headers['Pragma'] = 'no-cache'
@@ -173,6 +200,19 @@ def get_question_files(directory):
 @main.route('/get_questions/<string:directory>/<string:filename>')
 def get_questions(directory, filename):
 	"""Get questions from a specific JSON file"""
+	# Try database first
+	try:
+		questions = get_questions_db(directory, filename)
+		if questions is not None:
+			response = jsonify(questions)
+			response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+			response.headers['Pragma'] = 'no-cache'
+			response.headers['Expires'] = '0'
+			return response
+	except Exception as e:
+		print(f"Database error: {e}")
+	
+	# Fallback to file system
 	filepath = os.path.join(directory, filename)
 	
 	if not os.path.isfile(filepath):
@@ -182,7 +222,6 @@ def get_questions(directory, filename):
 		with open(filepath, 'r', encoding='utf-8') as f:
 			questions = json.load(f)
 		
-		# Add cache-control headers to prevent browser caching
 		response = jsonify(questions)
 		response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
 		response.headers['Pragma'] = 'no-cache'
@@ -193,102 +232,42 @@ def get_questions(directory, filename):
 
 @main.route('/save_questions/<string:directory>/<string:filename>', methods=['POST'])
 def save_questions(directory, filename):
-	"""Save questions to a JSON file (local only, synced to GitHub periodically)"""
-	filepath = os.path.join(directory, filename)
-	
-	if not os.path.isdir(directory):
-		return jsonify({'success': False, 'error': 'Directory not found'}), 404
-	
+	"""Save questions to database"""
 	try:
 		data = request.get_json()
 		questions_data = data.get('questions')
 		
-		# Write to local file with pretty formatting
-		with open(filepath, 'w', encoding='utf-8') as f:
-			json.dump(questions_data, f, indent=2, ensure_ascii=False)
-		
-		# Note: GitHub sync happens via periodic background task or manual trigger
-		
-		return jsonify({'success': True})
+		# Save to database
+		result = save_questions_db(directory, filename, questions_data)
+		if result['success']:
+			return jsonify(result)
+		else:
+			return jsonify(result), 500
 	except Exception as e:
+		print(f"Database error: {e}")
 		return jsonify({'success': False, 'error': str(e)}), 500
 
 @main.route('/create_question_set', methods=['POST'])
 def create_question_set():
-	"""Create a new question set from template"""
-	import shutil
-	
+	"""Create a new question set in database"""
 	data = request.get_json()
 	new_name = data.get('name', '').strip()
 	
-	if not new_name:
-		return jsonify({'success': False, 'error': 'Naam is verplicht'}), 400
-	
-	# Validate name (alphanumeric, hyphens, underscores only)
-	if not all(c.isalnum() or c in '-_' for c in new_name):
-		return jsonify({'success': False, 'error': 'Naam mag alleen letters, cijfers, - en _ bevatten'}), 400
-	
-	# Check if directory already exists
-	if os.path.exists(new_name):
-		return jsonify({'success': False, 'error': 'Deze naam bestaat al'}), 400
-	
-	# Check if template exists
-	if not os.path.isdir('template'):
-		return jsonify({'success': False, 'error': 'Template niet gevonden'}), 404
-	
-	try:
-		# Copy template to new directory
-		shutil.copytree('template', new_name)
-		
-		# Remove README from the copy
-		readme_path = os.path.join(new_name, 'README.md')
-		if os.path.exists(readme_path):
-			os.remove(readme_path)
-		
-		# Note: GitHub sync happens via periodic background task or manual trigger
-		
-		return jsonify({'success': True, 'name': new_name})
-	except Exception as e:
-		return jsonify({'success': False, 'error': str(e)}), 500
+	# Create in database
+	result = create_question_set_db(new_name)
+	if result['success']:
+		return jsonify(result)
+	else:
+		return jsonify(result), 400
 
 @main.route('/delete_question_set/<string:directory>', methods=['POST'])
 def delete_question_set(directory):
-	"""Delete a question set (except default and template)"""
-	import shutil
-	
-	# Protect default and template
-	if directory in ['default', 'template']:
-		return jsonify({'success': False, 'error': 'Kan default of template niet verwijderen'}), 403
-	
-	# Check if directory exists
-	if not os.path.isdir(directory):
-		return jsonify({'success': False, 'error': 'Vragenset niet gevonden'}), 404
-	
-	try:
-		# Delete local directory
-		shutil.rmtree(directory)
-		
-		# Delete from GitHub by deleting all files
-		commit_message = f"Delete question set: {directory}"
-		
-		# Get all files in the directory from GitHub and delete them
-		if github_sync.enabled:
-			try:
-				contents = github_sync.repo.get_contents(directory, ref=github_sync.branch)
-				for content_file in contents:
-					github_sync.repo.delete_file(
-						path=content_file.path,
-						message=commit_message,
-						sha=content_file.sha,
-						branch=github_sync.branch
-					)
-				print(f"✅ Deleted {directory} from GitHub")
-			except Exception as e:
-				print(f"⚠️ Could not delete from GitHub: {e}")
-		
-		return jsonify({'success': True})
-	except Exception as e:
-		return jsonify({'success': False, 'error': str(e)}), 500
+	"""Delete a question set from database"""
+	result = delete_question_set_db(directory)
+	if result['success']:
+		return jsonify(result)
+	else:
+		return jsonify(result), 403 if 'protected' in result.get('error', '').lower() else 404
 
 @main.route('/sync_to_github', methods=['POST'])
 def sync_to_github():
