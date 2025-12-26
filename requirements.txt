@@ -19,3 +19,6 @@ Werkzeug==2.2.2
 zipp==3.11.0
 gunicorn==21.2.0
 PyGithub==2.1.1
+supabase==2.27.0
+python-dotenv==1.0.0
+websockets==15.0.1
