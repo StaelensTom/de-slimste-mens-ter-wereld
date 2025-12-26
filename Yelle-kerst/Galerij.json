@@ -53,28 +53,28 @@
   },
   {
     "answers": [
-      "GA3 - Answer 1",
-      "GA3 - Answer 2",
-      "GA3 - Answer 3",
-      "GA3 - Answer 4",
-      "GA3 - Answer 5",
-      "GA3 - Answer 6",
-      "GA3 - Answer 7",
-      "GA3 - Answer 8",
-      "GA3 - Answer 9",
-      "GA3 - Answer 10"
+      "Bananenboom",
+      "Ananas plant",
+      "Kokosnoot boom",
+      "Citroenboom",
+      "Granaatappelboom",
+      "Appelboom",
+      "Kersenboom",
+      "Aardbijenstruik",
+      "Kiwiplant",
+      "Watermeloenplant"
     ],
     "images": [
-      "galerij_3_1.png",
-      "galerij_3_2.png",
-      "galerij_3_3.png",
-      "galerij_3_4.png",
-      "galerij_3_5.png",
-      "galerij_3_6.png",
-      "galerij_3_7.png",
-      "galerij_3_8.png",
-      "galerij_3_9.png",
-      "galerij_3_10.png"
+      "https://img.freepik.com/premium-photo/banaan-op-boom-in-de-boerderij_29084-2565.jpg",
+      "https://media.istockphoto.com/id/509609610/photo/ile-maurice-annanas-fruit.jpg?s=612x612&w=0&k=20&c=ro_AX9t1Goh0_LbD4ZCiywYnTTQ8ic_oQKq0QljIw54=",
+      "https://image.kidsweek.nl/228938776/width/2048/wist-jij-dit-al-over-de-kokosnoot",
+      "https://www.allimone.nl/wp-content/uploads/2020/01/99146-4017-Roses-Apartment_Crop_0_0.jpg",
+      "https://nl-be.bakker.com/cdn/shop/files/ado_104698_3.jpg?v=1763566491&width=1946",
+      "https://d147a5vd7kzml6.cloudfront.net/img/appeltern_nl/242927/1180x2000/resize:normal/hoe_snoei_je_een_appelboom.jpg",
+      "https://media.s-bol.com/g8MzW3DYkp9D/q7vg3z7/550x550.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV1zTn_5VyNzUzcOzKP1k8qj_fJGhOrLAR9Q&s",
+      "https://cdn.shopify.com/s/files/1/0833/3924/7942/files/kiwis-196807_1280-1024x768.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGAQXoUwZQCTR-0gO2Gyr0VlcYxVhNUEhwjA&s"
     ]
   }
 ]
