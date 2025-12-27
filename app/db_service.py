@@ -74,6 +74,10 @@ class DatabaseService:
         # Extract just the data field from each question
         return [q['data'] for q in response.data]
     
+    def get_questions_for_round(self, question_set_name: str, round_type: str) -> List[Dict[str, Any]]:
+        """Alias for get_questions_by_set_and_round for game compatibility."""
+        return self.get_questions_by_set_and_round(question_set_name, round_type)
+    
     def get_all_questions_for_set(self, question_set_name: str) -> Dict[str, List[Dict[str, Any]]]:
         """Get all questions for a question set, organized by round type."""
         question_set = self.get_question_set_by_name(question_set_name)

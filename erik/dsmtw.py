@@ -535,7 +535,44 @@ class DeSlimsteMens(Gameshow):
 	# 
 
 	def load_questions(self, questions_directory):
-		# Load the questions for each round
+		# Try to load from database first, fallback to file system
+		try:
+			from app.db_service import db_service
+			
+			# Get question set name from directory path
+			question_set_name = os.path.basename(questions_directory)
+			
+			# Load questions from database
+			for i, round_text in enumerate(self.rounds):
+				questions_data = db_service.get_questions_for_round(question_set_name, round_text)
+				
+				if questions_data:
+					self.questions[i] = questions_data
+					question_count = len(self.questions[i])
+					
+					# Different checks for finale
+					if round_text == "Finale":
+						if question_count < 10:
+							print(f"{round_text}: {question_count} questions might be too few")
+						continue
+
+					if round_text == "3-6-9":
+						if question_count < 15:
+							print(f"{round_text}: 15 questions are required for this round")
+						continue
+
+					if question_count < self.no_players:
+						print(f"{round_text}: not enough questions ({question_count}) for the number of players ({self.no_players})")
+				else:
+					print(f"No questions found in database for {round_text}")
+			
+			print(f"Loaded questions from database for: {question_set_name}")
+			return
+			
+		except Exception as e:
+			print(f"Database loading failed ({e}), falling back to file system")
+		
+		# Fallback to file system
 		for i, round_text in enumerate(self.rounds):
 			# Each question set should be named "round.json"
 			questions_json_path = os.path.join(questions_directory, f"{round_text}.json")
@@ -558,4 +595,4 @@ class DeSlimsteMens(Gameshow):
 					if question_count < self.no_players:
 						print(f"{round_text}: not enough questions ({question_count}) for the number of players ({self.no_players})")
 			else:
-				print(f"Questions for round {round_text} not found!")
+				print(f"No questions found for {round_text}")
